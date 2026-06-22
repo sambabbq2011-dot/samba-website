@@ -3,9 +3,9 @@ import { BookingForm } from "@/components/BookingForm";
 import { PageHero } from "@/components/PageHero";
 import { imageUrls, siteConfig, siteUrl } from "@/lib/site";
 
-const title = "預約外燴服務｜Samba 窯烤外燴";
+const title = "詢問檔期與初步報價｜Samba 窯烤外燴";
 const description =
-  "填寫 Samba 窯烤外燴預約需求，提供活動日期、地點、人數與需求，我們將協助規劃合適的外燴方案。";
+  "填寫活動日期、地區、人數與預算方向，Samba 窯烤外燴將協助確認檔期，並建議合適的外燴方案。";
 const canonical = siteUrl("/booking");
 
 export const metadata: Metadata = {
@@ -31,16 +31,16 @@ export default function BookingPage() {
   return (
     <>
       <PageHero
-        eyebrow="BOOK YOUR EVENT"
-        title="預約外燴服務"
-        description="告訴我們活動日期、地點、人數與餐飲需求，Samba 團隊將協助確認檔期並規劃適合的外燴方案。"
+        eyebrow="QUICK INQUIRY"
+        title="詢問檔期與初步報價"
+        description="填寫約 60 秒。先提供日期、地區、人數與預算方向，我們會協助確認檔期，並建議合適的外燴方案。"
         image={imageUrls.hero}
       />
       <section id="form" className="section booking-page">
         <div className="container booking-page__intro">
           <p className="eyebrow">START PLANNING</p>
-          <h2>先讓我們了解您的需求吧！</h2>
-          <p>填寫約需 3～5 分鐘。送出需求不代表預約完成，實際檔期與內容將由工作人員與您確認。</p>
+          <h2>先簡單告訴我們活動方向</h2>
+          <p>不需要一次準備完整資料；先確認檔期與預算方向，其他細節都可以後續再討論。</p>
         </div>
         <div className="container">
           <BookingForm />

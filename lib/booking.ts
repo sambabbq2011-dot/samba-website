@@ -1,21 +1,22 @@
 export type BookingFormData = {
   activityDate: string;
   estimatedDateRange: string;
-  activityAddress: string;
-  adults: number;
-  children: number;
+  activityRegion: string;
+  guestRange: string;
   eventType: string;
   budgetPerPerson: string;
-  specialRequirement: string;
-  vegetarianGuests: number | null;
-  venueType: string;
-  unloadingAccess: string;
   contactName: string;
   phone: string;
   contactPreference: string;
   lineDisplayName: string;
+  additionalNeeds: string;
+  activityAddress: string;
+  adults: number | null;
+  children: number | null;
+  venueType: string;
+  unloadingAccess: string;
+  dietaryDetails: string;
   referralSource: string;
-  acceptedTerms: boolean;
 };
 
 export type BookingSubmitResult = {

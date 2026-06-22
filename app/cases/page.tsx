@@ -15,9 +15,12 @@ export const metadata: Metadata = createMetadata(
 
 const cases = [
   { category: "企業活動", title: "年度家庭日", note: "戶外草地 · 大型供餐", image: assetPath("/images/case-family-day.jpg") },
-  { category: "婚禮派對", title: "森林系戶外婚禮", note: "現烤餐檯 · 自助取餐", image: imageUrls.wedding },
-  { category: "私人聚會", title: "夏日晚宴", note: "庭院派對 · 客製菜單", image: imageUrls.table },
-  { category: "品牌活動", title: "新品發表派對", note: "品牌合作 · 餐飲體驗", image: imageUrls.fire },
+  {
+    category: "婚禮派對",
+    title: "陽明山花園婚禮｜森林系戶外婚禮",
+    note: "花園長桌 · 現場窯烤",
+    image: assetPath("/images/case-yangmingshan-wedding-venue.jpg")
+  },
   {
     category: "節慶派對",
     title: "聖誕節橋下烤肉派對",
@@ -25,6 +28,14 @@ const cases = [
     image: assetPath("/images/case-christmas-bridge-party.png")
   },
   { category: "", title: "", note: "", image: imageUrls.hero }
+];
+
+const weddingPhotos = [
+  { src: assetPath("/images/case-yangmingshan-wedding-venue.jpg"), alt: "陽明山花園婚禮宴會場地", featured: true },
+  { src: assetPath("/images/case-yangmingshan-wedding-grill.jpg"), alt: "婚禮晚宴現場窯烤料理" },
+  { src: assetPath("/images/case-yangmingshan-wedding-buffet.jpg"), alt: "花園婚禮戶外餐點展示" },
+  { src: assetPath("/images/case-yangmingshan-wedding-table.jpg"), alt: "森林系婚禮長桌與花藝" },
+  { src: assetPath("/images/case-yangmingshan-wedding-dessert.jpg"), alt: "婚禮甜點展示牆" }
 ];
 
 const eventVideos = [
@@ -75,6 +86,30 @@ export default function CasesPage() {
                 {item.title && <h2>{item.title}</h2>}
                 {item.note && <span>{item.note}</span>}
               </article>
+            ))}
+          </div>
+        </div>
+      </section>
+      <section className="section section--sand">
+        <div className="container">
+          <SectionHeading
+            eyebrow="GARDEN WEDDING"
+            title="陽明山花園婚禮｜森林系戶外婚禮"
+            description="綠意環繞的花園長桌，搭配現場窯烤與精緻餐點，讓婚禮晚宴自然、溫暖又充滿香氣。"
+          />
+          <div className="pet-party-gallery">
+            {weddingPhotos.map((photo) => (
+              <figure
+                key={photo.src}
+                className={photo.featured ? "pet-party-photo pet-party-photo--featured" : "pet-party-photo"}
+              >
+                <Image
+                  src={photo.src}
+                  alt={photo.alt}
+                  fill
+                  sizes={photo.featured ? "(max-width: 800px) 100vw, 66vw" : "(max-width: 800px) 100vw, 33vw"}
+                />
+              </figure>
             ))}
           </div>
         </div>

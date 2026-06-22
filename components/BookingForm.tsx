@@ -1,31 +1,48 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import {
-  BookingFormData,
-  submitBookingForm
-} from "@/lib/booking";
+import { BookingFormData, submitBookingForm } from "@/lib/booking";
 
-const eventTypes = [
-  "公司聚餐",
-  "尾牙／春酒",
-  "家庭聚會",
-  "生日派對",
-  "社區活動",
-  "學校活動",
-  "婚禮",
-  "其他"
+const regions = [
+  "台北市",
+  "新北市",
+  "桃園市",
+  "新竹縣市",
+  "苗栗",
+  "宜蘭",
+  "台中以南",
+  "其他地區"
+];
+
+const guestRanges = [
+  "20 人以下",
+  "20–40 人",
+  "40–80 人",
+  "80–150 人",
+  "150 人以上",
+  "尚未確定"
 ];
 
 const budgets = [
-  "500",
-  "600",
-  "700",
-  "800",
-  "900",
-  "1000",
-  "1100",
-  "1200",
+  "NT$500／人",
+  "NT$600／人",
+  "NT$700／人",
+  "NT$800／人",
+  "NT$1000／人",
+  "NT$1200／人",
+  "不確定，請協助建議",
+  "其他"
+];
+
+const eventTypes = [
+  "公司活動",
+  "家庭日",
+  "私人聚會",
+  "生日派對",
+  "婚禮／戶外派對",
+  "露營活動",
+  "社區活動",
+  "寵物友善聚會",
   "其他"
 ];
 
@@ -42,9 +59,13 @@ function value(formData: FormData, key: string) {
   return String(formData.get(key) || "");
 }
 
+function optionalNumber(formData: FormData, key: string) {
+  const fieldValue = value(formData, key);
+  return fieldValue ? Number(fieldValue) : null;
+}
+
 export function BookingForm() {
   const [dateUndecided, setDateUndecided] = useState(false);
-  const [specialRequirement, setSpecialRequirement] = useState("無");
   const [contactPreference, setContactPreference] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -59,27 +80,22 @@ export function BookingForm() {
     const bookingData: BookingFormData = {
       activityDate: value(formData, "activityDate"),
       estimatedDateRange: value(formData, "estimatedDateRange"),
-      activityAddress: value(formData, "activityAddress"),
-      adults: Number(value(formData, "adults")),
-      children: Number(value(formData, "children")),
+      activityRegion: value(formData, "activityRegion"),
+      guestRange: value(formData, "guestRange"),
       eventType: value(formData, "eventType"),
       budgetPerPerson: value(formData, "budgetPerPerson"),
-      specialRequirement: value(formData, "specialRequirement"),
-      vegetarianGuests:
-        specialRequirement === "素食"
-          ? Number(value(formData, "vegetarianGuests"))
-          : null,
-      venueType: value(formData, "venueType"),
-      unloadingAccess: value(formData, "unloadingAccess"),
       contactName: value(formData, "contactName"),
       phone: value(formData, "phone"),
       contactPreference: value(formData, "contactPreference"),
-      lineDisplayName:
-        contactPreference === "我已加入 LINE 官方帳號"
-          ? value(formData, "lineDisplayName")
-          : "",
-      referralSource: value(formData, "referralSource"),
-      acceptedTerms: formData.get("acceptedTerms") === "yes"
+      lineDisplayName: value(formData, "lineDisplayName"),
+      additionalNeeds: value(formData, "additionalNeeds"),
+      activityAddress: value(formData, "activityAddress"),
+      adults: optionalNumber(formData, "adults"),
+      children: optionalNumber(formData, "children"),
+      venueType: value(formData, "venueType"),
+      unloadingAccess: value(formData, "unloadingAccess"),
+      dietaryDetails: value(formData, "dietaryDetails"),
+      referralSource: value(formData, "referralSource")
     };
 
     setSubmitting(true);
@@ -97,27 +113,33 @@ export function BookingForm() {
       <div className="booking-success" role="status" aria-live="polite">
         <span aria-hidden="true">✓</span>
         <p className="eyebrow">REQUEST RECEIVED</p>
-        <h2>已收到您的預約需求，我們會盡快與您聯繫。</h2>
-        <p>工作人員將依您提供的活動資訊，協助確認檔期與後續方案。</p>
+        <h2>已收到您的詢問，我們會盡快與您聯繫。</h2>
+        <p>專人將依活動日期、地區、人數與預算方向，協助確認檔期並建議合適方案。</p>
         <button
           className="button button--dark"
           type="button"
           onClick={() => setSubmitted(false)}
         >
-          填寫另一筆需求
+          填寫另一筆詢問
         </button>
       </div>
     );
   }
 
   return (
-    <form className="booking-form" onSubmit={handleBookingSubmit}>
+    <form className="booking-form booking-form--quick" onSubmit={handleBookingSubmit}>
+      <div className="booking-trust" aria-label="服務資訊">
+        <span>北台灣為主，其他地區歡迎洽詢</span>
+        <span>最低消費 NT$20,000 起</span>
+        <span>專人確認檔期與建議方案</span>
+      </div>
+
       <div className="booking-section">
         <div className="booking-section__heading">
           <span>01</span>
           <div>
-            <p className="eyebrow">EVENT DETAILS</p>
-            <h2>活動資訊</h2>
+            <p className="eyebrow">EVENT BASICS</p>
+            <h2>活動基本資訊</h2>
           </div>
         </div>
 
@@ -127,7 +149,7 @@ export function BookingForm() {
             checked={dateUndecided}
             onChange={(event) => setDateUndecided(event.target.checked)}
           />
-          <span>活動日期尚未確定</span>
+          <span>日期尚未確定</span>
         </label>
 
         <div className="booking-fields booking-fields--two">
@@ -137,8 +159,8 @@ export function BookingForm() {
               <input name="activityDate" type="date" required />
             </label>
           ) : (
-            <label className="booking-field">
-              <span>預計日期區間 <b>*</b></span>
+            <label className="booking-field booking-field--conditional">
+              <span>大約日期區間 <b>*</b></span>
               <input
                 name="estimatedDateRange"
                 required
@@ -146,119 +168,48 @@ export function BookingForm() {
               />
             </label>
           )}
+
           <label className="booking-field">
-            <span>活動地址 <b>*</b></span>
-            <input
-              name="activityAddress"
-              required
-              placeholder="請填寫縣市、區域與完整地址"
-            />
+            <span>活動地區 <b>*</b></span>
+            <select name="activityRegion" required defaultValue="">
+              <option value="" disabled>請選擇縣市或大約區域</option>
+              {regions.map((item) => <option key={item}>{item}</option>)}
+            </select>
+            <small>先填縣市或大約區域即可，完整地址可後續確認。</small>
           </label>
+
           <label className="booking-field">
-            <span>預估人數（大人）<b>*</b></span>
-            <input name="adults" type="number" min="1" required />
-          </label>
-          <label className="booking-field">
-            <span>預估人數（小孩，可填 0）<b>*</b></span>
-            <input name="children" type="number" min="0" required />
-          </label>
-          <label className="booking-field">
-            <span>活動類型</span>
-            <select name="eventType" defaultValue="">
-              <option value="">請選擇</option>
-              {eventTypes.map((item) => (
-                <option key={item}>{item}</option>
-              ))}
+            <span>預估人數 <b>*</b></span>
+            <select name="guestRange" required defaultValue="">
+              <option value="" disabled>請選擇</option>
+              {guestRanges.map((item) => <option key={item}>{item}</option>)}
             </select>
           </label>
+
           <label className="booking-field">
-            <span>活動場地</span>
-            <select name="venueType" defaultValue="">
-              <option value="">請選擇</option>
-              <option>室內</option>
-              <option>室外</option>
-              <option>半室內（有屋頂，四周部分或完全開放）</option>
-              <option>其他</option>
+            <span>預算方向 <b>*</b></span>
+            <select name="budgetPerPerson" required defaultValue="">
+              <option value="" disabled>請選擇</option>
+              {budgets.map((item) => <option key={item}>{item}</option>)}
+            </select>
+          </label>
+
+          <label className="booking-field booking-field--full">
+            <span>活動類型 <b>*</b></span>
+            <select name="eventType" required defaultValue="">
+              <option value="" disabled>請選擇</option>
+              {eventTypes.map((item) => <option key={item}>{item}</option>)}
             </select>
           </label>
         </div>
-
-        <fieldset className="booking-choice">
-          <legend>工作人員車輛是否可停靠卸貨？ <b>*</b></legend>
-          <div className="booking-options">
-            {["可停車", "可臨停卸貨", "無法停靠，需步行搬運", "其他"].map(
-              (item) => (
-                <label className="booking-radio" key={item}>
-                  <input
-                    type="radio"
-                    name="unloadingAccess"
-                    value={item}
-                    required
-                  />
-                  <span>{item}</span>
-                </label>
-              )
-            )}
-          </div>
-        </fieldset>
       </div>
 
       <div className="booking-section">
         <div className="booking-section__heading">
           <span>02</span>
           <div>
-            <p className="eyebrow">MENU REQUEST</p>
-            <h2>菜單與飲食需求</h2>
-          </div>
-        </div>
-
-        <div className="booking-fields booking-fields--two">
-          <label className="booking-field">
-            <span>希望預算（每人）<b>*</b></span>
-            <select name="budgetPerPerson" required defaultValue="">
-              <option value="" disabled>請選擇</option>
-              {budgets.map((item) => (
-                <option key={item} value={item}>
-                  {item === "其他" ? item : `NT$ ${item}`}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label className="booking-field">
-            <span>特殊需求 <b>*</b></span>
-            <select
-              name="specialRequirement"
-              required
-              value={specialRequirement}
-              onChange={(event) => setSpecialRequirement(event.target.value)}
-            >
-              <option>無</option>
-              <option>食物過敏</option>
-              <option>素食</option>
-              <option>其他</option>
-            </select>
-          </label>
-          {specialRequirement === "素食" && (
-            <label className="booking-field booking-field--conditional">
-              <span>素食人數 <b>*</b></span>
-              <input
-                name="vegetarianGuests"
-                type="number"
-                min="1"
-                required
-                placeholder="請填寫需要素食的位數"
-              />
-            </label>
-          )}
-        </div>
-      </div>
-
-      <div className="booking-section">
-        <div className="booking-section__heading">
-          <span>03</span>
-          <div>
-            <p className="eyebrow">CONTACT DETAILS</p>
-            <h2>聯絡資料</h2>
+            <p className="eyebrow">CONTACT</p>
+            <h2>聯絡方式</h2>
           </div>
         </div>
 
@@ -275,35 +226,35 @@ export function BookingForm() {
               required
               autoComplete="tel"
               inputMode="tel"
-              placeholder="若無法透過 LINE 聯繫，將使用此電話"
+              placeholder="若無法使用 LINE 聯繫，將使用此電話"
             />
           </label>
         </div>
 
         <fieldset className="booking-choice">
-          <legend>聯絡方式 <b>*</b></legend>
+          <legend>希望如何聯絡？ <b>*</b></legend>
           <div className="booking-options">
-            {["我已加入 LINE 官方帳號", "我希望使用電話聯繫即可"].map(
-              (item) => (
-                <label className="booking-radio" key={item}>
-                  <input
-                    type="radio"
-                    name="contactPreference"
-                    value={item}
-                    required
-                    checked={contactPreference === item}
-                    onChange={(event) =>
-                      setContactPreference(event.target.value)
-                    }
-                  />
-                  <span>{item}</span>
-                </label>
-              )
-            )}
+            {[
+              "LINE 聯繫較方便，送出後請加入官方 LINE",
+              "電話聯繫較方便，請注意陌生來電"
+            ].map((item) => (
+              <label className="booking-radio" key={item}>
+                <input
+                  type="radio"
+                  name="contactPreference"
+                  value={item}
+                  required
+                  checked={contactPreference === item}
+                  onChange={(event) => setContactPreference(event.target.value)}
+                />
+                <span>{item}</span>
+              </label>
+            ))}
           </div>
         </fieldset>
 
-        {contactPreference === "我已加入 LINE 官方帳號" && (
+        {contactPreference ===
+          "LINE 聯繫較方便，送出後請加入官方 LINE" && (
           <label className="booking-field booking-field--conditional">
             <span>LINE 顯示名稱 <b>*</b></span>
             <input
@@ -317,58 +268,101 @@ export function BookingForm() {
 
       <div className="booking-section">
         <div className="booking-section__heading">
-          <span>04</span>
+          <span>03</span>
           <div>
-            <p className="eyebrow">BOOKING POLICY</p>
-            <h2>預約須知</h2>
+            <p className="eyebrow">MORE DETAILS</p>
+            <h2>補充需求</h2>
           </div>
         </div>
 
-        <div className="booking-notice">
-          <ul>
-            <li>40 位大人以下，最低消費為 NT$20,000；人數不足時將依最低消費升級餐點內容。</li>
-            <li>送出表單僅代表提出需求，不代表預約成功；雙方確認內容並完成 30% 訂金後才算正式預約。</li>
-            <li>菜單可能依季節食材或供應狀況調整，將以同等品質食材替換。</li>
-          </ul>
-          <h3>取消與退款</h3>
-          <ul>
-            <li>活動日前 30 天（含）以前取消：全額退還已付款項。</li>
-            <li>活動日前 15～29 天取消：退還已付款項的 50%。</li>
-            <li>活動日前 7～14 天取消：訂金不退，可討論延期一次。</li>
-            <li>活動日前 6 天內取消：恕不退款。</li>
-          </ul>
-          <p>颱風或天災等不可抗力因素，雙方可協商延期；若無法延期，再另行協商退款方式。</p>
-        </div>
-
-        <label className="booking-check booking-check--terms">
-          <input
-            type="checkbox"
-            name="acceptedTerms"
-            value="yes"
-            required
-          />
-          <span>我已閱讀並了解以上預約及取消說明 <b>*</b></span>
-        </label>
-
         <label className="booking-field">
-          <span>您是如何得知我們？ <b>*</b></span>
-          <select name="referralSource" required defaultValue="">
-            <option value="" disabled>請選擇</option>
-            {referralSources.map((item) => (
-              <option key={item}>{item}</option>
-            ))}
-          </select>
+          <span>還有什麼想先告訴我們？</span>
+          <textarea
+            name="additionalNeeds"
+            rows={5}
+            placeholder="例如：素食、過敏、場地限制、希望菜色、活動流程、是否需要特別安排等"
+          />
         </label>
       </div>
 
+      <details className="booking-details">
+        <summary>
+          <span>
+            <b>我已確定活動資訊，要填寫完整資料</b>
+            <small>選填，可補充地址、人數明細、場地與飲食需求</small>
+          </span>
+          <span aria-hidden="true">＋</span>
+        </summary>
+        <div className="booking-details__content">
+          <div className="booking-fields booking-fields--two">
+            <label className="booking-field booking-field--full">
+              <span>完整活動地址</span>
+              <input name="activityAddress" placeholder="縣市、區域與完整地址" />
+            </label>
+            <label className="booking-field">
+              <span>大人人數</span>
+              <input name="adults" type="number" min="0" />
+            </label>
+            <label className="booking-field">
+              <span>小孩人數</span>
+              <input name="children" type="number" min="0" />
+            </label>
+            <label className="booking-field">
+              <span>活動場地</span>
+              <select name="venueType" defaultValue="">
+                <option value="">尚未確定／稍後補充</option>
+                <option>室內</option>
+                <option>室外</option>
+                <option>半室內（有屋頂，四周部分或完全開放）</option>
+                <option>其他</option>
+              </select>
+            </label>
+            <label className="booking-field">
+              <span>車輛停靠與卸貨</span>
+              <select name="unloadingAccess" defaultValue="">
+                <option value="">尚未確定／稍後補充</option>
+                <option>可停車</option>
+                <option>可臨停卸貨</option>
+                <option>無法停靠，需步行搬運</option>
+                <option>其他</option>
+              </select>
+            </label>
+            <label className="booking-field booking-field--full">
+              <span>素食、過敏原或特殊飲食</span>
+              <textarea
+                name="dietaryDetails"
+                rows={4}
+                placeholder="可填寫人數、過敏食材與其他飲食限制"
+              />
+            </label>
+            <label className="booking-field booking-field--full">
+              <span>您是如何得知我們？（選填）</span>
+              <select name="referralSource" defaultValue="">
+                <option value="">不填也可以</option>
+                {referralSources.map((item) => <option key={item}>{item}</option>)}
+              </select>
+            </label>
+          </div>
+
+          <div className="booking-notice booking-notice--secondary">
+            <p>正式保留檔期前，專人會再與您確認完整菜單、報價、訂金，以及預約與取消方式。</p>
+          </div>
+        </div>
+      </details>
+
       <div className="booking-submit">
-        <p><b>*</b> 為必填欄位。送出後工作人員將依聯絡資料回覆。</p>
+        <div>
+          <p><b>*</b> 為必填欄位。</p>
+          <p className="booking-submit__note">
+            送出詢問不代表預約完成。實際檔期、菜單、報價與訂金資訊，將由專人確認後回覆。
+          </p>
+        </div>
         <button
           className="button button--dark"
           type="submit"
           disabled={submitting}
         >
-          {submitting ? "送出中…" : "送出預約需求"}
+          {submitting ? "送出中…" : "送出詢問，請 Samba 協助規劃"}
         </button>
       </div>
     </form>
