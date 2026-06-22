@@ -4,6 +4,7 @@ import { CTA } from "@/components/CTA";
 import { PageHero } from "@/components/PageHero";
 import { SectionHeading } from "@/components/SectionHeading";
 import { createMetadata } from "@/lib/metadata";
+import { assetPath } from "@/lib/paths";
 import { imageUrls } from "@/lib/site";
 
 export const metadata: Metadata = createMetadata(
@@ -13,7 +14,7 @@ export const metadata: Metadata = createMetadata(
 );
 
 const cases = [
-  { category: "企業活動", title: "年度家庭日", note: "戶外草地 · 大型供餐", image: "/images/case-family-day.jpg" },
+  { category: "企業活動", title: "年度家庭日", note: "戶外草地 · 大型供餐", image: assetPath("/images/case-family-day.jpg") },
   { category: "婚禮派對", title: "森林系戶外婚禮", note: "現烤餐檯 · 自助取餐", image: imageUrls.wedding },
   { category: "私人聚會", title: "夏日晚宴", note: "庭院派對 · 客製菜單", image: imageUrls.table },
   { category: "品牌活動", title: "新品發表派對", note: "品牌合作 · 餐飲體驗", image: imageUrls.fire },
@@ -21,7 +22,7 @@ const cases = [
     category: "節慶派對",
     title: "聖誕節橋下烤肉派對",
     note: "橋下聚會 · 現場旋轉窯烤",
-    image: "/images/case-christmas-bridge-party.png"
+    image: assetPath("/images/case-christmas-bridge-party.png")
   },
   { category: "", title: "", note: "", image: imageUrls.hero }
 ];
@@ -36,12 +37,12 @@ const eventVideos = [
 ];
 
 const petPartyPhotos = [
-  { src: "/images/pet-party-venue-mosaicked.jpg", alt: "毛孩戶外活動場地", featured: true },
-  { src: "/images/pet-party-woman-mosaicked.jpg", alt: "參加者與薩摩耶合影" },
-  { src: "/images/pet-party-christmas-samoyed.jpg", alt: "聖誕裝扮的薩摩耶" },
-  { src: "/images/pet-party-dog-friends.jpg", alt: "薩摩耶與米格魯相聚" },
-  { src: "/images/pet-party-samoyed-group.jpg", alt: "戶外活動中的薩摩耶群" },
-  { src: "/images/pet-party-venue-sign.jpg", alt: "毛孩戶外聚會場地" }
+  { src: assetPath("/images/pet-party-venue-mosaicked.jpg"), alt: "毛孩戶外活動場地", featured: true },
+  { src: assetPath("/images/pet-party-woman-mosaicked.jpg"), alt: "參加者與薩摩耶合影" },
+  { src: assetPath("/images/pet-party-christmas-samoyed.jpg"), alt: "聖誕裝扮的薩摩耶" },
+  { src: assetPath("/images/pet-party-dog-friends.jpg"), alt: "薩摩耶與米格魯相聚" },
+  { src: assetPath("/images/pet-party-samoyed-group.jpg"), alt: "戶外活動中的薩摩耶群" },
+  { src: assetPath("/images/pet-party-venue-sign.jpg"), alt: "毛孩戶外聚會場地" }
 ];
 
 function facebookVideoEmbed(url: string) {

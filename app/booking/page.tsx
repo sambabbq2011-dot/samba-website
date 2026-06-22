@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import { BookingForm } from "@/components/BookingForm";
 import { PageHero } from "@/components/PageHero";
-import { imageUrls, siteConfig } from "@/lib/site";
+import { imageUrls, siteConfig, siteUrl } from "@/lib/site";
 
 const title = "預約外燴服務｜Samba 窯烤外燴";
 const description =
   "填寫 Samba 窯烤外燴預約需求，提供活動日期、地點、人數與需求，我們將協助規劃合適的外燴方案。";
-const canonical = new URL("/booking", siteConfig.url).toString();
+const canonical = siteUrl("/booking");
 
 export const metadata: Metadata = {
   title: { absolute: title },

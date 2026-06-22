@@ -14,6 +14,13 @@ export const siteConfig = {
     "https://www.facebook.com/SambaChurrasco/"
 };
 
+export function siteUrl(path = "/") {
+  const baseUrl = siteConfig.url.replace(/\/+$/, "");
+  const normalizedPath = path === "/" ? "/" : `/${path.replace(/^\/+/, "")}`;
+
+  return `${baseUrl}${normalizedPath}`;
+}
+
 type NavigationItem = {
   href: string;
   label: string;

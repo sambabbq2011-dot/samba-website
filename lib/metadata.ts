@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { siteConfig } from "@/lib/site";
+import { siteConfig, siteUrl } from "@/lib/site";
 
 export function createMetadata(
   title: string,
   description: string,
   path = "/"
 ): Metadata {
-  const url = new URL(path, siteConfig.url).toString();
+  const url = siteUrl(path);
 
   return {
     title,

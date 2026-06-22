@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { PageHero } from "@/components/PageHero";
 import { createMetadata } from "@/lib/metadata";
+import { assetPath } from "@/lib/paths";
 import { imageUrls, siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = createMetadata(
@@ -68,7 +69,7 @@ export default function ContactPage() {
             </div>
             <div className="line-qr-card__image">
               <Image
-                src="/images/line-official-qr.png"
+                src={assetPath("/images/line-official-qr.png")}
                 alt="Samba 窯烤 LINE 官方帳號 QR Code"
                 width={540}
                 height={540}
