@@ -19,23 +19,22 @@ const cases = [
     category: "婚禮派對",
     title: "陽明山花園婚禮｜森林系戶外婚禮",
     note: "花園長桌 · 現場窯烤",
-    image: assetPath("/images/case-yangmingshan-wedding-venue.jpg")
+    image: assetPath("/images/case-yangmingshan-wedding-new-venue.jpg")
   },
   {
     category: "節慶派對",
     title: "聖誕節橋下烤肉派對",
     note: "橋下聚會 · 現場旋轉窯烤",
     image: assetPath("/images/case-christmas-bridge-party.png")
-  },
-  { category: "", title: "", note: "", image: imageUrls.hero }
+  }
 ];
 
 const weddingPhotos = [
-  { src: assetPath("/images/case-yangmingshan-wedding-venue.jpg"), alt: "陽明山花園婚禮宴會場地", featured: true },
-  { src: assetPath("/images/case-yangmingshan-wedding-grill.jpg"), alt: "婚禮晚宴現場窯烤料理" },
-  { src: assetPath("/images/case-yangmingshan-wedding-buffet.jpg"), alt: "花園婚禮戶外餐點展示" },
-  { src: assetPath("/images/case-yangmingshan-wedding-table.jpg"), alt: "森林系婚禮長桌與花藝" },
-  { src: assetPath("/images/case-yangmingshan-wedding-dessert.jpg"), alt: "婚禮甜點展示牆" }
+  { src: assetPath("/images/case-yangmingshan-wedding-new-venue.jpg"), alt: "陽明山森林系花園婚禮宴會場地", featured: true },
+  { src: assetPath("/images/case-yangmingshan-wedding-new-dessert-wall.jpg"), alt: "花園婚禮甜甜圈展示牆" },
+  { src: assetPath("/images/case-yangmingshan-wedding-new-buffet.jpg"), alt: "森林系婚禮戶外餐點展示" },
+  { src: assetPath("/images/case-yangmingshan-wedding-new-grill.jpg"), alt: "婚禮晚宴現場窯烤料理" },
+  { src: assetPath("/images/case-yangmingshan-wedding-new-snacks.jpg"), alt: "花園婚禮點心餐檯" }
 ];
 
 const eventVideos = [
@@ -83,7 +82,11 @@ export default function CasesPage() {
                   <Image src={item.image} alt={item.title} fill sizes="(max-width: 800px) 100vw, 50vw" />
                 </div>
                 {item.category && <p className="eyebrow">{item.category}</p>}
-                {item.title && <h2>{item.title}</h2>}
+                {item.title && (
+                  <h2 className={item.title.includes("陽明山花園婚禮") ? "no-wrap-title" : undefined}>
+                    {item.title}
+                  </h2>
+                )}
                 {item.note && <span>{item.note}</span>}
               </article>
             ))}
@@ -92,11 +95,13 @@ export default function CasesPage() {
       </section>
       <section className="section section--sand">
         <div className="container">
-          <SectionHeading
-            eyebrow="GARDEN WEDDING"
-            title="陽明山花園婚禮｜森林系戶外婚禮"
-            description="綠意環繞的花園長桌，搭配現場窯烤與精緻餐點，讓婚禮晚宴自然、溫暖又充滿香氣。"
-          />
+          <div className="no-wrap-section-title">
+            <SectionHeading
+              eyebrow="GARDEN WEDDING"
+              title="陽明山花園婚禮｜森林系戶外婚禮"
+              description="綠意環繞的花園長桌，搭配現場窯烤與精緻餐點，讓婚禮晚宴自然、溫暖又充滿香氣。"
+            />
+          </div>
           <div className="pet-party-gallery">
             {weddingPhotos.map((photo) => (
               <figure
@@ -116,11 +121,13 @@ export default function CasesPage() {
       </section>
       <section className="section pet-party-section">
         <div className="container">
-          <SectionHeading
-            eyebrow="PET FRIENDLY EVENT"
-            title="毛孩聚會｜50隻毛孩的戶外窯烤派對"
-            description="毛孩自在奔跑，主人輕鬆相聚；現場窯烤讓戶外派對多一份香氣與熱鬧。"
-          />
+          <div className="no-wrap-section-title">
+            <SectionHeading
+              eyebrow="PET FRIENDLY EVENT"
+              title="毛孩聚會｜50隻毛孩的戶外窯烤派對"
+              description="毛孩自在奔跑，主人輕鬆相聚；現場窯烤讓戶外派對多一份香氣與熱鬧。"
+            />
+          </div>
           <div className="pet-party-gallery">
             {petPartyPhotos.map((photo) => (
               <figure
@@ -140,11 +147,13 @@ export default function CasesPage() {
       </section>
       <section className="section section--sand">
         <div className="container">
-          <SectionHeading
-            eyebrow="LIVE FROM SAMBA"
-            title="從影片，看見現場的火與熱情。"
-            description="以下內容來自 Samba 窯烤官方 Facebook，記錄不同活動中的料理、互動與歡樂時刻。"
-          />
+          <div className="no-wrap-section-title">
+            <SectionHeading
+              eyebrow="LIVE FROM SAMBA"
+              title="從影片，看見現場的火與熱情。"
+              description="以下內容來自 Samba 窯烤官方 Facebook，記錄不同活動中的料理、互動與歡樂時刻。"
+            />
+          </div>
           <div className="case-videos-grid">
             {eventVideos.map((video) => (
               <article key={video.url} className="case-video-card">

@@ -155,7 +155,7 @@ export default function MenuPage() {
         <div className="container menu-page-container">
           <SectionHeading
             eyebrow="PRICE PACKAGES"
-            title="依照預算，快速比較方案內容。"
+            title={"依照預算，\n快速比較方案內容。"}
             description="Samba 窯烤外燴依活動性質、預算及人數提供客製化搭配，以下為常見方案參考內容，實際菜色可依需求調整。"
             align="center"
           />

@@ -1,4 +1,5 @@
 export type BookingFormData = {
+  flowType: "inquiry" | "booking";
   activityDate: string;
   estimatedDateRange: string;
   activityRegion: string;
@@ -17,6 +18,7 @@ export type BookingFormData = {
   unloadingAccess: string;
   dietaryDetails: string;
   referralSource: string;
+  acceptedTerms: boolean;
 };
 
 export type BookingSubmitResult = {

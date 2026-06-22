@@ -55,7 +55,7 @@ export default function ServicesPage() {
         <div className="container">
           <SectionHeading
             eyebrow="SERVE WITH FIRE"
-            title="不套公式，從活動本身開始規劃。"
+            title={"不套公式，\n從活動本身開始規劃。"}
             description="以下是常見合作形式，實際內容會依場地與需求調整。"
           />
           <div className="detail-list">

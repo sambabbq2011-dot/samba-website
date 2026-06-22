@@ -24,7 +24,10 @@ export default function AboutPage() {
       <section className="section">
         <div className="container split-grid split-grid--center">
           <div>
-            <SectionHeading eyebrow="SINCE 2011" title="一群愛烤肉的人，決定把熱情帶上路。" />
+            <SectionHeading
+              eyebrow="SINCE 2011"
+              title={"一群愛烤肉的人，\n決定把熱情帶上路。"}
+            />
           </div>
           <div className="prose">
             <p>
