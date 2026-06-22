@@ -16,7 +16,7 @@ export function Header() {
     <header className="site-header">
       <div className="container header-inner">
         <Link href="/" className="brand" aria-label="Samba 窯烤首頁">
-          <BrandMark />
+          <BrandMark variant="header" />
         </Link>
 
         <button
