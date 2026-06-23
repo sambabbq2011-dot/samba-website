@@ -135,8 +135,32 @@ function validatePayload_(payload) {
     throw new Error("缺少必要欄位：flowType");
   }
 
+  if (String(payload.contactName || "").length > 10) {
+    throw new Error("稱呼不可超過 10 個字。");
+  }
+
+  if (String(payload.phone || "").length > 10) {
+    throw new Error("電話不可超過 10 個字。");
+  }
+
+  if (String(payload.additionalNeeds || "").length > 150) {
+    throw new Error("補充需求不可超過 150 個字。");
+  }
+
   if (!payload.activityDate && !payload.estimatedDateRange) {
     throw new Error("活動日期或日期區間至少需要填寫一項。");
+  }
+
+  if (payload.activityDate) {
+    const today = Utilities.formatDate(
+      new Date(),
+      "Asia/Taipei",
+      "yyyy-MM-dd"
+    );
+
+    if (String(payload.activityDate) < today) {
+      throw new Error("活動日期不可早於今天。");
+    }
   }
 
   const formCategory = getFormCategory_(payload);

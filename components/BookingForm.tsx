@@ -64,6 +64,14 @@ function optionalNumber(formData: FormData, key: string) {
   return fieldValue ? Number(fieldValue) : null;
 }
 
+function localToday() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
 export function BookingForm() {
   const [flowType, setFlowType] = useState<"inquiry" | "booking" | null>(null);
   const [dateUndecided, setDateUndecided] = useState(false);
@@ -234,7 +242,12 @@ export function BookingForm() {
           {!dateUndecided ? (
             <label className="booking-field">
               <span>活動日期 <b>*</b></span>
-              <input name="activityDate" type="date" required />
+              <input
+                name="activityDate"
+                type="date"
+                min={localToday()}
+                required
+              />
             </label>
           ) : (
             <label className="booking-field booking-field--conditional">
@@ -357,7 +370,12 @@ export function BookingForm() {
         <div className="booking-fields booking-fields--two">
           <label className="booking-field">
             <span>您的稱呼 <b>*</b></span>
-            <input name="contactName" required autoComplete="name" />
+            <input
+              name="contactName"
+              required
+              maxLength={10}
+              autoComplete="name"
+            />
           </label>
           <label className="booking-field">
             <span>手機號碼 <b>*</b></span>
@@ -365,6 +383,7 @@ export function BookingForm() {
               name="phone"
               type="tel"
               required
+              maxLength={10}
               autoComplete="tel"
               inputMode="tel"
               placeholder="若無法使用 LINE 聯繫，將使用此電話"
@@ -421,6 +440,7 @@ export function BookingForm() {
           <textarea
             name="additionalNeeds"
             rows={5}
+            maxLength={150}
             placeholder="例如：素食、過敏、場地限制、希望菜色、活動流程、是否需要特別安排等"
           />
         </label>

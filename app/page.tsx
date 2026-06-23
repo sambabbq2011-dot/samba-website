@@ -4,6 +4,7 @@ import Link from "next/link";
 import { CTA } from "@/components/CTA";
 import { SectionHeading } from "@/components/SectionHeading";
 import { createMetadata } from "@/lib/metadata";
+import { assetPath } from "@/lib/paths";
 import { imageUrls } from "@/lib/site";
 
 export const metadata: Metadata = createMetadata(
@@ -69,11 +70,38 @@ export default function HomePage() {
           </div>
         </div>
         <div className="container image-pair">
-          <div className="image-card image-card--large">
-            <Image src={imageUrls.fire} alt="炭火現烤料理" fill sizes="(max-width: 800px) 100vw, 65vw" />
+          <div
+            className="image-card image-card--large image-card--video"
+            style={{
+              backgroundImage: `url("${assetPath("/images/home-samba-buffet.jpg")}")`
+            }}
+          >
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              poster={assetPath("/images/home-samba-buffet.jpg")}
+              aria-label="Samba 外燴活動現場影片"
+            >
+              <source
+                src={assetPath("/videos/home-samba-catering.mp4")}
+                type="video/mp4"
+              />
+              <img
+                src={assetPath("/images/home-samba-buffet.jpg")}
+                alt="Samba 戶外外燴餐點"
+              />
+            </video>
           </div>
           <div className="image-card image-card--small">
-            <Image src={imageUrls.table} alt="外燴餐桌與料理" fill sizes="(max-width: 800px) 100vw, 35vw" />
+            <Image
+              src={assetPath("/images/home-samba-buffet.jpg")}
+              alt="Samba 戶外外燴餐點"
+              fill
+              sizes="(max-width: 800px) 100vw, 35vw"
+            />
           </div>
         </div>
       </section>
