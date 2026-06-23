@@ -4,7 +4,7 @@ import Link from "next/link";
 import { PageHero } from "@/components/PageHero";
 import { createMetadata } from "@/lib/metadata";
 import { assetPath } from "@/lib/paths";
-import { imageUrls, siteConfig } from "@/lib/site";
+import { siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = createMetadata(
   "聯絡我們",
@@ -19,7 +19,7 @@ export default function ContactPage() {
         eyebrow="CONTACT US"
         title="告訴我們，你想辦一場怎樣的聚會？"
         description="提供日期、地點、人數與預算方向，我們會依資訊回覆合適的規劃建議。"
-        image={imageUrls.gathering}
+        image={assetPath("/images/cases-hero-background.png")}
       />
       <section className="section section--sand">
         <div className="container contact-layout">

@@ -3,7 +3,7 @@ import { CTA } from "@/components/CTA";
 import { PageHero } from "@/components/PageHero";
 import { SectionHeading } from "@/components/SectionHeading";
 import { createMetadata } from "@/lib/metadata";
-import { imageUrls } from "@/lib/site";
+import { assetPath } from "@/lib/paths";
 
 export const metadata: Metadata = createMetadata(
   "服務項目",
@@ -49,7 +49,7 @@ export default function ServicesPage() {
         eyebrow="OUR SERVICES"
         title="把專業烤檯，帶進你的活動現場。"
         description="從數十人的私人派對到大型企業活動，依需求規劃菜色、設備、人力與供餐節奏。"
-        image={imageUrls.gathering}
+        image={assetPath("/images/cases-hero-background.png")}
       />
       <section className="section">
         <div className="container">

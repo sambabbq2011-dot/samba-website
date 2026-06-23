@@ -39,8 +39,8 @@ export default function HomePage() {
             讓料理成為現場最有溫度的風景。
           </p>
           <div className="hero-actions">
-            <Link href="/services" className="button button--orange">
-              探索外燴服務
+            <Link href="/booking" className="button button--orange">
+              詢問檔期與報價
             </Link>
             <Link href="/cases" className="button button--outline">
               看活動案例
@@ -91,7 +91,7 @@ export default function HomePage() {
                 <span>{number}</span>
                 <h3>{title}</h3>
                 <p>{description}</p>
-                <Link href="/services" aria-label={`了解${title}`}>
+                <Link href="/cases" aria-label={`查看${title}活動案例`}>
                   ↗
                 </Link>
               </article>

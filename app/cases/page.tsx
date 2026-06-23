@@ -5,7 +5,6 @@ import { PageHero } from "@/components/PageHero";
 import { SectionHeading } from "@/components/SectionHeading";
 import { createMetadata } from "@/lib/metadata";
 import { assetPath } from "@/lib/paths";
-import { imageUrls } from "@/lib/site";
 
 export const metadata: Metadata = createMetadata(
   "活動案例",
@@ -134,7 +133,7 @@ export default function CasesPage() {
         eyebrow="EVENT STORIES"
         title="每一場火，都照亮不同的故事。"
         description="從場地條件到賓客組成，每個案例都有自己的節奏，也因此值得被好好規劃。"
-        image={imageUrls.wedding}
+        image={assetPath("/images/cases-hero-background.png")}
       />
       <section className="section section--sand">
         <div className="container">
