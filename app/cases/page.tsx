@@ -61,6 +61,50 @@ const christmasBridgePhotos = [
   }
 ];
 
+const brazilNationalDayPhotos = [
+  {
+    src: assetPath("/images/case-brazil-national-day-cover.jpg"),
+    alt: "巴西國慶日活動現場",
+    featured: true
+  },
+  {
+    src: assetPath("/images/case-brazil-national-day-venue.jpg"),
+    alt: "巴西國慶日戶外活動場地"
+  },
+  {
+    src: assetPath("/images/case-brazil-national-day-grill.jpg"),
+    alt: "巴西國慶日現場窯烤料理"
+  },
+  {
+    src: assetPath("/images/case-brazil-national-day-guests.jpg"),
+    alt: "巴西國慶日賓客聚會"
+  },
+  {
+    src: assetPath("/images/case-brazil-national-day-service.jpg"),
+    alt: "Samba 巴西國慶日外燴服務"
+  }
+];
+
+const ruifangCommunityPhotos = [
+  {
+    src: assetPath("/images/case-ruifang-community-cover.jpg"),
+    alt: "瑞芳里民活動現場",
+    featured: true
+  },
+  {
+    src: assetPath("/images/case-ruifang-community-event.jpg"),
+    alt: "瑞芳里民戶外聚會"
+  },
+  {
+    src: assetPath("/images/case-ruifang-community-grill.jpg"),
+    alt: "瑞芳里民活動窯烤料理"
+  },
+  {
+    src: assetPath("/images/case-ruifang-community-poster.png"),
+    alt: "瑞芳里民活動紀錄"
+  }
+];
+
 const eventVideos = [
   {
     title: "巴西嘉年華烤肉趴",
@@ -120,15 +164,15 @@ export default function CasesPage() {
       </section>
       <section className="section">
         <div className="container">
-          <div className="no-wrap-section-title no-wrap-section-copy">
+          <div className="no-wrap-section-title">
             <SectionHeading
-              eyebrow="BATTING CENTER EVENT"
-              title="大魯閣打擊場活動外燴｜Samba 窯烤現場服務"
-              description="打擊場聚會也能享用現烤窯烤料理，Samba 團隊到場準備餐點與服務。"
+              eyebrow="PET FRIENDLY EVENT"
+              title="毛孩聚會｜50隻毛孩的戶外窯烤派對"
+              description="毛孩自在奔跑，主人輕鬆相聚；現場窯烤讓戶外派對多一份香氣與熱鬧。"
             />
           </div>
           <div className="pet-party-gallery">
-            {battingCenterPhotos.map((photo) => (
+            {petPartyPhotos.map((photo) => (
               <figure
                 key={photo.src}
                 className={photo.featured ? "pet-party-photo pet-party-photo--featured" : "pet-party-photo"}
@@ -174,13 +218,65 @@ export default function CasesPage() {
         <div className="container">
           <div className="no-wrap-section-title">
             <SectionHeading
-              eyebrow="PET FRIENDLY EVENT"
-              title="毛孩聚會｜50隻毛孩的戶外窯烤派對"
-              description="毛孩自在奔跑，主人輕鬆相聚；現場窯烤讓戶外派對多一份香氣與熱鬧。"
+              eyebrow="BRAZIL NATIONAL DAY"
+              title="巴西國慶日"
+              description="以現場窯烤料理與熱情服務，一起感受充滿巴西風情的節慶聚會。"
             />
           </div>
           <div className="pet-party-gallery">
-            {petPartyPhotos.map((photo) => (
+            {brazilNationalDayPhotos.map((photo) => (
+              <figure
+                key={photo.src}
+                className={photo.featured ? "pet-party-photo pet-party-photo--featured" : "pet-party-photo"}
+              >
+                <Image
+                  src={photo.src}
+                  alt={photo.alt}
+                  fill
+                  sizes={photo.featured ? "(max-width: 800px) 100vw, 66vw" : "(max-width: 800px) 100vw, 33vw"}
+                />
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
+      <section className="section section--sand">
+        <div className="container">
+          <div className="no-wrap-section-title">
+            <SectionHeading
+              eyebrow="COMMUNITY EVENT"
+              title="瑞芳里民活動"
+              description="把現烤香氣帶進里民聚會，讓大家在輕鬆熱鬧的氣氛中共享餐點。"
+            />
+          </div>
+          <div className="pet-party-gallery">
+            {ruifangCommunityPhotos.map((photo) => (
+              <figure
+                key={photo.src}
+                className={photo.featured ? "pet-party-photo pet-party-photo--featured" : "pet-party-photo"}
+              >
+                <Image
+                  src={photo.src}
+                  alt={photo.alt}
+                  fill
+                  sizes={photo.featured ? "(max-width: 800px) 100vw, 66vw" : "(max-width: 800px) 100vw, 33vw"}
+                />
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
+      <section className="section pet-party-section">
+        <div className="container">
+          <div className="no-wrap-section-title no-wrap-section-copy">
+            <SectionHeading
+              eyebrow="BATTING CENTER EVENT"
+              title="大魯閣打擊場活動外燴｜Samba 窯烤現場服務"
+              description="打擊場聚會也能享用現烤窯烤料理，Samba 團隊到場準備餐點與服務。"
+            />
+          </div>
+          <div className="pet-party-gallery">
+            {battingCenterPhotos.map((photo) => (
               <figure
                 key={photo.src}
                 className={photo.featured ? "pet-party-photo pet-party-photo--featured" : "pet-party-photo"}

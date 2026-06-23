@@ -76,7 +76,7 @@ function doPost(e) {
     lock.waitLock(10000);
 
     try {
-      const sheet = getBookingSheet_();
+      const sheet = getBookingSheet_(payload);
       ensureHeaderRow_(sheet);
 
       if (isDuplicateSubmission_(sheet, payload.submissionId)) {
@@ -118,7 +118,6 @@ function parseRequestBody_(e) {
 function validatePayload_(payload) {
   const requiredFields = [
     "submissionId",
-    "flowType",
     "eventType",
     "budgetPerPerson",
     "contactName",
@@ -132,11 +131,17 @@ function validatePayload_(payload) {
     }
   });
 
+  if (!getRawFormType_(payload)) {
+    throw new Error("缺少必要欄位：flowType");
+  }
+
   if (!payload.activityDate && !payload.estimatedDateRange) {
     throw new Error("活動日期或日期區間至少需要填寫一項。");
   }
 
-  if (payload.flowType === "booking") {
+  const formCategory = getFormCategory_(payload);
+
+  if (formCategory === "booking") {
     if (!payload.activityAddress) {
       throw new Error("完整預約需要填寫活動地點。");
     }
@@ -149,19 +154,94 @@ function validatePayload_(payload) {
     if (!payload.acceptedTerms) {
       throw new Error("請先確認預約方式與取消規則。");
     }
-  } else if (!payload.activityRegion || !payload.guestRange) {
+  } else if (
+    formCategory !== "registration" &&
+    (!payload.activityRegion || !payload.guestRange)
+  ) {
     throw new Error("簡易諮詢需要填寫活動地區與預估人數。");
   }
 }
 
-function getBookingSheet_() {
-  const properties = PropertiesService.getScriptProperties();
+function getBookingSheet_(payload) {
   const spreadsheetId = getRequiredProperty_("SPREADSHEET_ID");
-  const sheetName = properties.getProperty("SHEET_NAME") || "預約詢問";
+  const sheetName = resolveSheetName_(payload);
   const spreadsheet = SpreadsheetApp.openById(spreadsheetId);
 
   return spreadsheet.getSheetByName(sheetName) ||
     spreadsheet.insertSheet(sheetName);
+}
+
+function resolveSheetName_(payload) {
+  const rawType = getRawFormType_(payload);
+  const formCategory = getFormCategory_(payload);
+
+  if (formCategory === "inquiry") {
+    return getRequiredProperty_("SHEET_NAME_INQUIRY");
+  }
+
+  if (formCategory === "booking") {
+    return getRequiredProperty_("SHEET_NAME_BOOKING");
+  }
+
+  if (formCategory === "registration") {
+    return getRequiredProperty_("SHEET_NAME_EVENT");
+  }
+
+  const fallbackSheetName =
+    getRequiredProperty_("SHEET_NAME_INQUIRY");
+  console.log(
+    `未知表單類型「${rawType || "空白"}」，預設寫入「${fallbackSheetName}」。`
+  );
+  return fallbackSheetName;
+}
+
+function getRawFormType_(payload) {
+  return String(
+    payload.formType ||
+    payload.flowType ||
+    payload["表單類型"] ||
+    ""
+  ).trim();
+}
+
+function getFormCategory_(payload) {
+  const normalizedType = getRawFormType_(payload).toLowerCase();
+  const typeGroups = {
+    inquiry: [
+      "inquiry",
+      "諮詢（簡易詢問）",
+      "諮詢(簡易詢問)",
+      "初步詢問"
+    ],
+    booking: [
+      "booking",
+      "預約（仔細詢問）",
+      "預約(仔細詢問)",
+      "完整預約"
+    ],
+    registration: [
+      "registration",
+      "event-registration",
+      "活動報名",
+      "最新活動報名"
+    ]
+  };
+
+  const matchedCategory = Object.keys(typeGroups).find((category) =>
+    typeGroups[category].some(
+      (type) => type.toLowerCase() === normalizedType
+    )
+  );
+
+  return matchedCategory || "unknown";
+}
+
+function getFormDisplayName_(payload) {
+  const formCategory = getFormCategory_(payload);
+
+  if (formCategory === "booking") return "預約（仔細詢問）";
+  if (formCategory === "registration") return "活動報名";
+  return "諮詢（簡易詢問）";
 }
 
 function ensureHeaderRow_(sheet) {
@@ -188,7 +268,7 @@ function appendBookingRow_(sheet, payload, lineStatus) {
     safeCell_(payload.submissionId),
     new Date(),
     safeCell_(payload.submittedAt),
-    payload.flowType === "booking" ? "預約（仔細詢問）" : "諮詢（簡易詢問）",
+    getFormDisplayName_(payload),
     safeCell_(payload.activityDate),
     safeCell_(payload.estimatedDateRange),
     safeCell_(payload.activityRegion),
@@ -214,12 +294,10 @@ function appendBookingRow_(sheet, payload, lineStatus) {
 }
 
 function buildLineMessage_(payload) {
-  const type = payload.flowType === "booking"
-    ? "預約（仔細詢問）"
-    : "諮詢（簡易詢問）";
+  const type = getFormDisplayName_(payload);
   const date = payload.activityDate || payload.estimatedDateRange || "未提供";
   const location = payload.activityAddress || payload.activityRegion || "未提供";
-  const guests = payload.flowType === "booking"
+  const guests = getFormCategory_(payload) === "booking"
     ? `大人 ${payload.adults} 位／小孩 ${payload.children} 位`
     : payload.guestRange;
 

@@ -24,7 +24,9 @@ Script Web App，再由 Apps Script 寫入 Google Sheet 並推播到 LINE 群組
 | 屬性 | 內容 |
 | --- | --- |
 | `SPREADSHEET_ID` | Google Sheet ID |
-| `SHEET_NAME` | `預約詢問`（可省略） |
+| `SHEET_NAME_INQUIRY` | `初步詢問` |
+| `SHEET_NAME_BOOKING` | `完整預約` |
+| `SHEET_NAME_EVENT` | `報名場次` |
 | `LINE_CHANNEL_ACCESS_TOKEN` | LINE Messaging API Channel Access Token |
 | `LINE_GROUP_ID` | 接收通知的 LINE 管理群組 ID |
 
