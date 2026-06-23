@@ -3,7 +3,7 @@ import { BookingForm } from "@/components/BookingForm";
 import { PageHero } from "@/components/PageHero";
 import { imageUrls, siteConfig, siteUrl } from "@/lib/site";
 
-const title = "外燴諮詢與預約｜Samba 窯烤外燴";
+const title = "Samba 窯烤外燴｜活動預約";
 const description =
   "依活動資訊選擇快速諮詢或完整預約，Samba 窯烤外燴將協助確認檔期、報價與合適方案。";
 const canonical = siteUrl("/booking");

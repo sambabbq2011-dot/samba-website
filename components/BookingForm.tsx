@@ -70,6 +70,7 @@ export function BookingForm() {
   const [contactPreference, setContactPreference] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
   async function handleBookingSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -98,9 +99,11 @@ export function BookingForm() {
       unloadingAccess: value(formData, "unloadingAccess"),
       dietaryDetails: value(formData, "dietaryDetails"),
       referralSource: value(formData, "referralSource"),
-      acceptedTerms: formData.get("acceptedTerms") === "yes"
+      acceptedTerms: formData.get("acceptedTerms") === "yes",
+      website: value(formData, "website")
     };
 
+    setSubmitError("");
     setSubmitting(true);
     const result = await submitBookingForm(bookingData);
     setSubmitting(false);
@@ -108,6 +111,8 @@ export function BookingForm() {
     if (result.success) {
       setSubmitted(true);
       window.location.hash = "form";
+    } else {
+      setSubmitError(result.message || "目前無法送出表單，請稍後再試。");
     }
   }
 
@@ -116,11 +121,7 @@ export function BookingForm() {
       <div className="booking-success" role="status" aria-live="polite">
         <span aria-hidden="true">✓</span>
         <p className="eyebrow">REQUEST RECEIVED</p>
-        <h2>
-          {flowType === "booking"
-            ? "已收到您的預約資料，我們會盡快與您聯繫。"
-            : "已收到您的詢問，我們會盡快與您聯繫。"}
-        </h2>
+        <h2>已收到您的詢問，Samba 將盡快與您聯繫</h2>
         <p>專人將依活動日期、地區、人數與預算方向，協助確認檔期並建議合適方案。</p>
         <button
           className="button button--dark"
@@ -184,6 +185,14 @@ export function BookingForm() {
 
   return (
     <form className="booking-form booking-form--quick" onSubmit={handleBookingSubmit}>
+      <input
+        className="booking-honeypot"
+        name="website"
+        type="text"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+      />
       <div className="booking-form__toolbar">
         <button
           className="booking-form__back"
@@ -483,6 +492,11 @@ export function BookingForm() {
               : "送出詢問，請 Samba 協助規劃"}
         </button>
       </div>
+      {submitError && (
+        <p className="booking-submit-error" role="alert">
+          {submitError}
+        </p>
+      )}
     </form>
   );
 }

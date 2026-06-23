@@ -1,0 +1,7 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "samba-line-group-id",
+  "main": "worker.js",
+  "compatibility_date": "2026-06-23",
+  "workers_dev": true
+}

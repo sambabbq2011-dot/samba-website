@@ -13,28 +13,52 @@ export const metadata: Metadata = createMetadata(
   "/cases"
 );
 
-const cases = [
-  { category: "企業活動", title: "年度家庭日", note: "戶外草地 · 大型供餐", image: assetPath("/images/case-family-day.jpg") },
-  {
-    category: "婚禮派對",
-    title: "陽明山花園婚禮｜森林系戶外婚禮",
-    note: "花園長桌 · 現場窯烤",
-    image: assetPath("/images/case-yangmingshan-wedding-new-venue.jpg")
-  },
-  {
-    category: "節慶派對",
-    title: "聖誕節橋下烤肉派對",
-    note: "橋下聚會 · 現場旋轉窯烤",
-    image: assetPath("/images/case-christmas-bridge-party.png")
-  }
-];
-
 const weddingPhotos = [
   { src: assetPath("/images/case-yangmingshan-wedding-new-venue.jpg"), alt: "陽明山森林系花園婚禮宴會場地", featured: true },
   { src: assetPath("/images/case-yangmingshan-wedding-new-dessert-wall.jpg"), alt: "花園婚禮甜甜圈展示牆" },
   { src: assetPath("/images/case-yangmingshan-wedding-new-buffet.jpg"), alt: "森林系婚禮戶外餐點展示" },
   { src: assetPath("/images/case-yangmingshan-wedding-new-grill.jpg"), alt: "婚禮晚宴現場窯烤料理" },
   { src: assetPath("/images/case-yangmingshan-wedding-new-snacks.jpg"), alt: "花園婚禮點心餐檯" }
+];
+
+const battingCenterPhotos = [
+  {
+    src: assetPath("/images/case-batting-center-service.jpg"),
+    alt: "Samba 團隊現場準備餐點與服務",
+    featured: true
+  },
+  {
+    src: assetPath("/images/case-batting-center-venue.jpg"),
+    alt: "大魯閣打擊場活動場地與賓客"
+  },
+  {
+    src: assetPath("/images/case-batting-center-buffet.jpg"),
+    alt: "打擊場活動外燴餐檯"
+  },
+  {
+    src: assetPath("/images/case-batting-center-dining.jpg"),
+    alt: "大魯閣打擊場聚會用餐區"
+  }
+];
+
+const christmasBridgePhotos = [
+  {
+    src: assetPath("/images/case-christmas-bridge-cover.jpg"),
+    alt: "橋下聖誕烤肉派對旋轉烤全雞",
+    featured: true
+  },
+  {
+    src: assetPath("/images/case-christmas-bridge-guests.jpg"),
+    alt: "橋下聖誕派對賓客享用窯烤料理"
+  },
+  {
+    src: assetPath("/images/case-christmas-bridge-grill.jpg"),
+    alt: "聖誕派對現場旋轉窯烤"
+  },
+  {
+    src: assetPath("/images/case-christmas-bridge-fish.jpg"),
+    alt: "橋下派對現場烤魚料理"
+  }
 ];
 
 const eventVideos = [
@@ -68,34 +92,9 @@ export default function CasesPage() {
         description="從場地條件到賓客組成，每個案例都有自己的節奏，也因此值得被好好規劃。"
         image={imageUrls.wedding}
       />
-      <section className="section">
-        <div className="container">
-          <SectionHeading
-            eyebrow="SELECTED EVENTS"
-            title="我們曾一起慶祝的時刻。"
-            description="目前圖片為版型示意；可直接替換成既有活動照片並補上完整案例內容。"
-          />
-          <div className="cases-grid">
-            {cases.map((item, index) => (
-              <article key={`${item.title}-${index}`} className={index % 3 === 0 ? "case-card case-card--wide" : "case-card"}>
-                <div className="case-card__image">
-                  <Image src={item.image} alt={item.title} fill sizes="(max-width: 800px) 100vw, 50vw" />
-                </div>
-                {item.category && <p className="eyebrow">{item.category}</p>}
-                {item.title && (
-                  <h2 className={item.title.includes("陽明山花園婚禮") ? "no-wrap-title" : undefined}>
-                    {item.title}
-                  </h2>
-                )}
-                {item.note && <span>{item.note}</span>}
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
       <section className="section section--sand">
         <div className="container">
-          <div className="no-wrap-section-title">
+          <div className="no-wrap-section-title no-wrap-section-copy">
             <SectionHeading
               eyebrow="GARDEN WEDDING"
               title="陽明山花園婚禮｜森林系戶外婚禮"
@@ -104,6 +103,58 @@ export default function CasesPage() {
           </div>
           <div className="pet-party-gallery">
             {weddingPhotos.map((photo) => (
+              <figure
+                key={photo.src}
+                className={photo.featured ? "pet-party-photo pet-party-photo--featured" : "pet-party-photo"}
+              >
+                <Image
+                  src={photo.src}
+                  alt={photo.alt}
+                  fill
+                  sizes={photo.featured ? "(max-width: 800px) 100vw, 66vw" : "(max-width: 800px) 100vw, 33vw"}
+                />
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
+      <section className="section">
+        <div className="container">
+          <div className="no-wrap-section-title no-wrap-section-copy">
+            <SectionHeading
+              eyebrow="BATTING CENTER EVENT"
+              title="大魯閣打擊場活動外燴｜Samba 窯烤現場服務"
+              description="打擊場聚會也能享用現烤窯烤料理，Samba 團隊到場準備餐點與服務。"
+            />
+          </div>
+          <div className="pet-party-gallery">
+            {battingCenterPhotos.map((photo) => (
+              <figure
+                key={photo.src}
+                className={photo.featured ? "pet-party-photo pet-party-photo--featured" : "pet-party-photo"}
+              >
+                <Image
+                  src={photo.src}
+                  alt={photo.alt}
+                  fill
+                  sizes={photo.featured ? "(max-width: 800px) 100vw, 66vw" : "(max-width: 800px) 100vw, 33vw"}
+                />
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
+      <section className="section section--sand">
+        <div className="container">
+          <div className="no-wrap-section-title">
+            <SectionHeading
+              eyebrow="CHRISTMAS PARTY"
+              title="橋下聖誕烤肉派對"
+              description="橋下空間化身熱鬧聚會現場，旋轉窯烤與現烤料理陪大家一起過聖誕。"
+            />
+          </div>
+          <div className="pet-party-gallery">
+            {christmasBridgePhotos.map((photo) => (
               <figure
                 key={photo.src}
                 className={photo.featured ? "pet-party-photo pet-party-photo--featured" : "pet-party-photo"}
@@ -147,7 +198,7 @@ export default function CasesPage() {
       </section>
       <section className="section section--sand">
         <div className="container">
-          <div className="no-wrap-section-title">
+          <div className="no-wrap-section-title no-wrap-section-copy">
             <SectionHeading
               eyebrow="LIVE FROM SAMBA"
               title="從影片，看見現場的火與熱情。"

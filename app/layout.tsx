@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Noto_Sans_TC, Oswald } from "next/font/google";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { assetPath } from "@/lib/paths";
 import { siteConfig } from "@/lib/site";
 import "./globals.css";
 
@@ -20,12 +21,33 @@ const oswald = Oswald({
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: "Samba 窯烤｜全台行動巴西窯烤外燴",
-    template: "%s｜Samba 窯烤"
+    default: "Samba 窯烤外燴｜行動巴西窯烤外燴",
+    template: "Samba 窯烤外燴｜%s"
   },
   description: siteConfig.description,
   applicationName: siteConfig.name,
   keywords: ["巴西窯烤", "外燴", "行動外燴", "企業活動", "婚禮外燴"],
+  icons: {
+    icon: [
+      {
+        url: assetPath("/samba-fire-favicon.png"),
+        type: "image/png",
+        sizes: "512x512"
+      },
+      {
+        url: assetPath("/samba-fire-favicon-32.png"),
+        type: "image/png",
+        sizes: "32x32"
+      }
+    ],
+    apple: [
+      {
+        url: assetPath("/samba-fire-apple-icon.png"),
+        sizes: "180x180",
+        type: "image/png"
+      }
+    ]
+  },
   robots: {
     index: true,
     follow: true

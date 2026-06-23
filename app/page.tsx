@@ -7,7 +7,7 @@ import { createMetadata } from "@/lib/metadata";
 import { imageUrls } from "@/lib/site";
 
 export const metadata: Metadata = createMetadata(
-  "全台行動巴西窯烤外燴",
+  "行動巴西窯烤外燴",
   "Samba 窯烤把現場炭火料理帶到企業活動、婚禮派對與私人聚會，讓每一場相聚都有香氣、有節奏、有記憶。",
   "/"
 );
@@ -82,7 +82,7 @@ export default function HomePage() {
         <div className="container">
           <SectionHeading
             eyebrow="WHAT WE DO"
-            title="每一種聚會，都有適合它的火候。"
+            title={"每一種聚會，\n都有適合它的火候。"}
             description="我們依活動性質、人數、場地與預算，協助規劃菜色與服務方式。"
           />
           <div className="service-list">

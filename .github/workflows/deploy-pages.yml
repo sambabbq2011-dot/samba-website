@@ -44,6 +44,7 @@ jobs:
           fi
           echo "GITHUB_PAGES=true" >> "$GITHUB_ENV"
           echo "NEXT_PUBLIC_SITE_URL=${site_url}" >> "$GITHUB_ENV"
+          echo "NEXT_PUBLIC_BOOKING_WEB_APP_URL=${{ vars.BOOKING_WEB_APP_URL }}" >> "$GITHUB_ENV"
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
