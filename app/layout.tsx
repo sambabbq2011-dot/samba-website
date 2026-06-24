@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Noto_Sans_TC, Oswald } from "next/font/google";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
@@ -63,6 +64,10 @@ export default function RootLayout({
         <Header />
         <main>{children}</main>
         <Footer />
+        <Link href="/booking#form" className="mobile-fixed-cta">
+          馬上
+          <span>詢問</span>
+        </Link>
       </body>
     </html>
   );

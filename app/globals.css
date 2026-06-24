@@ -157,6 +157,9 @@ h3 { font-size: 1.5rem; }
 .button--cream { background: var(--yellow); color: var(--blue); }
 .button--dark { color: var(--white); background: var(--blue); }
 .button--dark:hover { background: var(--green); }
+.mobile-fixed-cta {
+  display: none;
+}
 .hero-scroll {
   position: absolute;
   right: 30px;
@@ -1218,6 +1221,9 @@ h3 { font-size: 1.5rem; }
 }
 
 @media (max-width: 800px) {
+  body {
+    padding-bottom: calc(34px + env(safe-area-inset-bottom));
+  }
   .container { width: min(calc(100% - 30px), var(--container)); }
   .menu-page-container { width: min(calc(100% - 30px), var(--container)); }
   .section { padding: 76px 0; }
@@ -1285,6 +1291,31 @@ h3 { font-size: 1.5rem; }
   .booking-section { padding: 34px 28px; }
   .booking-submit { align-items: stretch; flex-direction: column; }
   .booking-submit .button { width: 100%; }
+  .mobile-fixed-cta {
+    position: fixed;
+    right: 16px;
+    bottom: calc(16px + env(safe-area-inset-bottom));
+    z-index: 140;
+    display: flex;
+    width: 68px;
+    height: 68px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: var(--yellow);
+    background: var(--green);
+    border: 3px solid var(--yellow);
+    border-radius: 50%;
+    box-shadow: 0 16px 38px rgba(0, 39, 118, .22);
+    font-size: .9rem;
+    font-weight: 900;
+    letter-spacing: .03em;
+    line-height: 1.15;
+    text-align: center;
+  }
+  .mobile-fixed-cta span {
+    display: block;
+  }
 }
 
 @media (max-width: 600px) {
