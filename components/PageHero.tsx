@@ -3,14 +3,18 @@ type PageHeroProps = {
   title: string;
   description: string;
   image: string;
+  mobileBreakAfterComma?: boolean;
 };
 
 export function PageHero({
   eyebrow,
   title,
   description,
-  image
+  image,
+  mobileBreakAfterComma = false
 }: PageHeroProps) {
+  const [titleBeforeComma, ...titleAfterComma] = title.split("，");
+  const shouldBreakOnMobile = mobileBreakAfterComma && titleAfterComma.length > 0;
   const titleLines = title.split("，");
 
   return (
@@ -20,13 +24,21 @@ export function PageHero({
     >
       <div className="container page-hero__content">
         <p className="eyebrow eyebrow--light">{eyebrow}</p>
-        <h1>
-          {titleLines.map((line, index) => (
-            <span className="page-hero__title-line" key={`${line}-${index}`}>
-              {line}
-              {index < titleLines.length - 1 && "，"}
-            </span>
-          ))}
+        <h1 className={shouldBreakOnMobile ? "has-mobile-comma-break" : undefined}>
+          {shouldBreakOnMobile ? (
+            <>
+              {titleBeforeComma}，
+              <br className="mobile-comma-break" />
+              {titleAfterComma.join("，")}
+            </>
+          ) : (
+            titleLines.map((line, index) => (
+              <span className="page-hero__title-line" key={`${line}-${index}`}>
+                {line}
+                {index < titleLines.length - 1 && "，"}
+              </span>
+            ))
+          )}
         </h1>
         <p>{description}</p>
       </div>

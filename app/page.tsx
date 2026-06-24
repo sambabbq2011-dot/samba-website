@@ -131,7 +131,11 @@ export default function HomePage() {
       <section className="quote-section">
         <div className="container">
           <p>“</p>
-          <blockquote>好吃是基本，讓大家圍在火邊笑起來，才是 Samba。</blockquote>
+          <blockquote>
+            好吃是基本，
+            <br />
+            火邊的笑聲才是 Samba。
+          </blockquote>
           <span>FIRE · FLAVOR · FIESTA</span>
         </div>
       </section>

@@ -16,6 +16,8 @@ const plans = [
   {
     price: "500",
     minimumGuests: 40,
+    previewTitle: "經典入門款",
+    highlights: [],
     grill: [
       "檸檬雞翅腿",
       "Chimichurrie 潛艦堡",
@@ -33,6 +35,8 @@ const plans = [
   {
     price: "600",
     minimumGuests: 34,
+    previewTitle: "升級亮點",
+    highlights: ["阿根廷深海魷魚", "脆皮三層"],
     grill: [
       "檸檬雞翅腿",
       "Chimichurrie 潛艦堡",
@@ -51,6 +55,8 @@ const plans = [
   {
     price: "700",
     minimumGuests: 29,
+    previewTitle: "升級亮點",
+    highlights: ["豬肋排", "大白蝦"],
     grill: [
       "檸檬雞翅腿",
       "Chimichurrie 潛艦堡",
@@ -70,6 +76,8 @@ const plans = [
   {
     price: "800",
     minimumGuests: 25,
+    previewTitle: "升級亮點",
+    highlights: ["裹鹽烤鮮魚", "牛肋條"],
     grill: [
       "檸檬雞翅腿",
       "Chimichurrie 潛艦堡",
@@ -90,6 +98,8 @@ const plans = [
   {
     price: "1000",
     minimumGuests: 20,
+    previewTitle: "升級亮點",
+    highlights: ["翼板牛", "蔥蒜白帶魚捲"],
     grill: [
       "檸檬雞翅腿",
       "Chimichurrie 潛艦堡",
@@ -113,6 +123,8 @@ const plans = [
   {
     price: "1200",
     minimumGuests: 17,
+    previewTitle: "升級亮點",
+    highlights: ["帶骨牛肋排", "戰斧牛排"],
     grill: [
       "莘香葉雞翅",
       "Chimichurrie 潛艦堡",
@@ -179,21 +191,41 @@ export default function MenuPage() {
                   </p>
                   <mark>未稅</mark>
                 </header>
-                <div className="price-plan-card__body">
-                  {categories.map((category) => (
-                    <section key={category.key} className="price-plan-group">
-                      <h3>{category.label}</h3>
-                      <ul>
-                        {plan[category.key].map((dish) => (
-                          <li key={dish}>{dish}</li>
-                        ))}
-                      </ul>
-                    </section>
-                  ))}
+                <input
+                  id={`menu-plan-${plan.price}`}
+                  className="price-plan-card__toggle"
+                  type="checkbox"
+                />
+                <div className="price-plan-card__preview">
+                  <p>{plan.previewTitle}</p>
+                  {plan.highlights.length > 0 && (
+                    <ul>
+                      {plan.highlights.map((dish) => (
+                        <li key={dish}>{dish}</li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
-                <Link href="/booking#form" className="price-plan-card__link">
-                  我要預約 <span>→</span>
-                </Link>
+                <label className="price-plan-card__expand" htmlFor={`menu-plan-${plan.price}`}>
+                  展開完整菜色 <span>＋</span>
+                </label>
+                <div className="price-plan-card__details">
+                  <div className="price-plan-card__body">
+                    {categories.map((category) => (
+                      <section key={category.key} className="price-plan-group">
+                        <h3>{category.label}</h3>
+                        <ul>
+                          {plan[category.key].map((dish) => (
+                            <li key={dish}>{dish}</li>
+                          ))}
+                        </ul>
+                      </section>
+                    ))}
+                  </div>
+                  <Link href="/booking#form" className="price-plan-card__link">
+                    我要預約 <span>→</span>
+                  </Link>
+                </div>
               </article>
             ))}
           </div>

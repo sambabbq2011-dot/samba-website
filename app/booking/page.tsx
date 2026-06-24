@@ -35,6 +35,7 @@ export default function BookingPage() {
         title="諮詢或預約，由你決定。"
         description="第一次了解方案，可以先簡單詢問；活動資訊已確定，也可以一次填寫完整資料。"
         image={imageUrls.hero}
+        mobileBreakAfterComma
       />
       <section id="form" className="section booking-page">
         <div className="container booking-page__intro">

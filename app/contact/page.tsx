@@ -25,7 +25,7 @@ export default function ContactPage() {
         <div className="container contact-layout">
           <div className="contact-info">
             <p className="eyebrow">LET&apos;S TALK</p>
-            <h2>越完整的資訊，越能快速找到適合的火候。</h2>
+            <h2>資料越完整，規劃越到位。</h2>
             <p>若日期尚未確定，也可以先描述活動形式與預計規模。</p>
             <div className="contact-methods">
               <a href="https://lin.ee/tQCuaq7" target="_blank" rel="noreferrer">

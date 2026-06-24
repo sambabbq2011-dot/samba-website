@@ -79,7 +79,7 @@ export default function ServicesPage() {
       </section>
       <section className="section section--sand">
         <div className="container">
-          <SectionHeading eyebrow="HOW IT WORKS" title="從詢問到開烤，四個步驟。" align="center" />
+          <SectionHeading eyebrow="HOW IT WORKS" title="從詢問到開烤，四個步驟。" align="center" mobileBreakAfterComma />
           <div className="steps-grid">
             {[
               ["01", "填寫表單", "日期、地點、預計人數、活動類型"],

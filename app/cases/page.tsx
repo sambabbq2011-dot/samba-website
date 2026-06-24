@@ -126,6 +126,16 @@ function facebookVideoEmbed(url: string) {
   return `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(url)}&show_text=false&width=760`;
 }
 
+const caseQuickLinks = [
+  { href: "#brazil-national-day", label: "巴西國慶" },
+  { href: "#batting-center-event", label: "企業團體" },
+  { href: "#christmas-party", label: "聖誕派對" },
+  { href: "#community-event", label: "社區活動" },
+  { href: "#pet-friendly-event", label: "毛孩聚會" },
+  { href: "#garden-wedding", label: "婚禮派對" },
+  { href: "#live-from-samba", label: "活動影片" }
+];
+
 export default function CasesPage() {
   return (
     <>
@@ -135,85 +145,19 @@ export default function CasesPage() {
         description="從場地條件到賓客組成，每個案例都有自己的節奏，也因此值得被好好規劃。"
         image={assetPath("/images/cases-hero-background.png")}
       />
-      <section className="section section--sand">
-        <div className="container">
-          <div className="no-wrap-section-title no-wrap-section-copy">
-            <SectionHeading
-              eyebrow="GARDEN WEDDING"
-              title="陽明山花園婚禮｜森林系戶外婚禮"
-              description="綠意環繞的花園長桌，搭配現場窯烤與精緻餐點，讓婚禮晚宴自然、溫暖又充滿香氣。"
-            />
-          </div>
-          <div className="pet-party-gallery">
-            {weddingPhotos.map((photo) => (
-              <figure
-                key={photo.src}
-                className={photo.featured ? "pet-party-photo pet-party-photo--featured" : "pet-party-photo"}
-              >
-                <Image
-                  src={photo.src}
-                  alt={photo.alt}
-                  fill
-                  sizes={photo.featured ? "(max-width: 800px) 100vw, 66vw" : "(max-width: 800px) 100vw, 33vw"}
-                />
-              </figure>
+      <nav className="case-quick-nav" aria-label="案例快速選單">
+        <div className="container case-quick-nav__inner">
+          <span>案例快速選單</span>
+          <div className="case-quick-nav__links">
+            {caseQuickLinks.map((link) => (
+              <a key={link.href} href={link.href} className="case-quick-nav__link">
+                {link.label}
+              </a>
             ))}
           </div>
         </div>
-      </section>
-      <section className="section">
-        <div className="container">
-          <div className="no-wrap-section-title">
-            <SectionHeading
-              eyebrow="PET FRIENDLY EVENT"
-              title="毛孩聚會｜50隻毛孩的戶外窯烤派對"
-              description="毛孩自在奔跑，主人輕鬆相聚；現場窯烤讓戶外派對多一份香氣與熱鬧。"
-            />
-          </div>
-          <div className="pet-party-gallery">
-            {petPartyPhotos.map((photo) => (
-              <figure
-                key={photo.src}
-                className={photo.featured ? "pet-party-photo pet-party-photo--featured" : "pet-party-photo"}
-              >
-                <Image
-                  src={photo.src}
-                  alt={photo.alt}
-                  fill
-                  sizes={photo.featured ? "(max-width: 800px) 100vw, 66vw" : "(max-width: 800px) 100vw, 33vw"}
-                />
-              </figure>
-            ))}
-          </div>
-        </div>
-      </section>
-      <section className="section section--sand">
-        <div className="container">
-          <div className="no-wrap-section-title">
-            <SectionHeading
-              eyebrow="CHRISTMAS PARTY"
-              title="橋下聖誕烤肉派對"
-              description="橋下空間化身熱鬧聚會現場，旋轉窯烤與現烤料理陪大家一起過聖誕。"
-            />
-          </div>
-          <div className="pet-party-gallery">
-            {christmasBridgePhotos.map((photo) => (
-              <figure
-                key={photo.src}
-                className={photo.featured ? "pet-party-photo pet-party-photo--featured" : "pet-party-photo"}
-              >
-                <Image
-                  src={photo.src}
-                  alt={photo.alt}
-                  fill
-                  sizes={photo.featured ? "(max-width: 800px) 100vw, 66vw" : "(max-width: 800px) 100vw, 33vw"}
-                />
-              </figure>
-            ))}
-          </div>
-        </div>
-      </section>
-      <section className="section pet-party-section">
+      </nav>
+      <section id="brazil-national-day" className="section pet-party-section case-anchor-section">
         <div className="container">
           <div className="no-wrap-section-title">
             <SectionHeading
@@ -239,33 +183,7 @@ export default function CasesPage() {
           </div>
         </div>
       </section>
-      <section className="section section--sand">
-        <div className="container">
-          <div className="no-wrap-section-title">
-            <SectionHeading
-              eyebrow="COMMUNITY EVENT"
-              title="瑞芳里民活動"
-              description="把現烤香氣帶進里民聚會，讓大家在輕鬆熱鬧的氣氛中共享餐點。"
-            />
-          </div>
-          <div className="pet-party-gallery">
-            {ruifangCommunityPhotos.map((photo) => (
-              <figure
-                key={photo.src}
-                className={photo.featured ? "pet-party-photo pet-party-photo--featured" : "pet-party-photo"}
-              >
-                <Image
-                  src={photo.src}
-                  alt={photo.alt}
-                  fill
-                  sizes={photo.featured ? "(max-width: 800px) 100vw, 66vw" : "(max-width: 800px) 100vw, 33vw"}
-                />
-              </figure>
-            ))}
-          </div>
-        </div>
-      </section>
-      <section className="section pet-party-section">
+      <section id="batting-center-event" className="section pet-party-section case-anchor-section">
         <div className="container">
           <div className="no-wrap-section-title no-wrap-section-copy">
             <SectionHeading
@@ -291,7 +209,111 @@ export default function CasesPage() {
           </div>
         </div>
       </section>
-      <section className="section section--sand">
+      <section id="christmas-party" className="section section--sand case-anchor-section">
+        <div className="container">
+          <div className="no-wrap-section-title">
+            <SectionHeading
+              eyebrow="CHRISTMAS PARTY"
+              title="橋下聖誕烤肉派對"
+              description="橋下空間化身熱鬧聚會現場，旋轉窯烤與現烤料理陪大家一起過聖誕。"
+            />
+          </div>
+          <div className="pet-party-gallery">
+            {christmasBridgePhotos.map((photo) => (
+              <figure
+                key={photo.src}
+                className={photo.featured ? "pet-party-photo pet-party-photo--featured" : "pet-party-photo"}
+              >
+                <Image
+                  src={photo.src}
+                  alt={photo.alt}
+                  fill
+                  sizes={photo.featured ? "(max-width: 800px) 100vw, 66vw" : "(max-width: 800px) 100vw, 33vw"}
+                />
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
+      <section id="community-event" className="section section--sand case-anchor-section">
+        <div className="container">
+          <div className="no-wrap-section-title">
+            <SectionHeading
+              eyebrow="COMMUNITY EVENT"
+              title="瑞芳里民活動"
+              description="把現烤香氣帶進里民聚會，讓大家在輕鬆熱鬧的氣氛中共享餐點。"
+            />
+          </div>
+          <div className="pet-party-gallery">
+            {ruifangCommunityPhotos.map((photo) => (
+              <figure
+                key={photo.src}
+                className={photo.featured ? "pet-party-photo pet-party-photo--featured" : "pet-party-photo"}
+              >
+                <Image
+                  src={photo.src}
+                  alt={photo.alt}
+                  fill
+                  sizes={photo.featured ? "(max-width: 800px) 100vw, 66vw" : "(max-width: 800px) 100vw, 33vw"}
+                />
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
+      <section id="pet-friendly-event" className="section case-anchor-section">
+        <div className="container">
+          <div className="no-wrap-section-title">
+            <SectionHeading
+              eyebrow="PET FRIENDLY EVENT"
+              title="毛孩聚會｜50隻毛孩的戶外窯烤派對"
+              description="毛孩自在奔跑，主人輕鬆相聚；現場窯烤讓戶外派對多一份香氣與熱鬧。"
+            />
+          </div>
+          <div className="pet-party-gallery">
+            {petPartyPhotos.map((photo) => (
+              <figure
+                key={photo.src}
+                className={photo.featured ? "pet-party-photo pet-party-photo--featured" : "pet-party-photo"}
+              >
+                <Image
+                  src={photo.src}
+                  alt={photo.alt}
+                  fill
+                  sizes={photo.featured ? "(max-width: 800px) 100vw, 66vw" : "(max-width: 800px) 100vw, 33vw"}
+                />
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
+      <section id="garden-wedding" className="section section--sand case-anchor-section">
+        <div className="container">
+          <div className="no-wrap-section-title no-wrap-section-copy">
+            <SectionHeading
+              eyebrow="GARDEN WEDDING"
+              title="陽明山花園婚禮｜森林系戶外婚禮"
+              description="綠意環繞的花園長桌，搭配現場窯烤與精緻餐點，讓婚禮晚宴自然、溫暖又充滿香氣。"
+            />
+          </div>
+          <div className="pet-party-gallery">
+            {weddingPhotos.map((photo) => (
+              <figure
+                key={photo.src}
+                className={photo.featured ? "pet-party-photo pet-party-photo--featured" : "pet-party-photo"}
+              >
+                <Image
+                  src={photo.src}
+                  alt={photo.alt}
+                  fill
+                  sizes={photo.featured ? "(max-width: 800px) 100vw, 66vw" : "(max-width: 800px) 100vw, 33vw"}
+                />
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
+      <section id="live-from-samba" className="section section--sand case-anchor-section">
         <div className="container">
           <div className="no-wrap-section-title no-wrap-section-copy">
             <SectionHeading

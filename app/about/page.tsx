@@ -17,7 +17,7 @@ export default function AboutPage() {
     <>
       <PageHero
         eyebrow="ABOUT SAMBA"
-        title="從一團火開始，走遍每一場值得慶祝的相聚。"
+        title="一團火，烤進每場相聚。"
         description="我們相信，最好的料理不只被吃掉，也會留在一群人的共同記憶裡。"
         image={imageUrls.fire}
       />
@@ -63,7 +63,11 @@ export default function AboutPage() {
           </div>
           <div>
             <p className="eyebrow">OUR PROMISE</p>
-            <h2>把複雜留給我們，把相聚留給你。</h2>
+            <h2>
+              把複雜留給我們，
+              <br className="mobile-comma-break" />
+              把相聚留給你。
+            </h2>
             <p>
               我們會在活動前確認場地、電力、水源、進撤場時間與賓客需求。當天你只需要好好招呼重要的人，其他的交給 Samba。
             </p>
