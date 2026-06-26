@@ -62,6 +62,8 @@ export default function ContactPage() {
                 src="https://scdn.line-apps.com/n/line_add_friends/btn/zh-Hant.png"
                 alt="加入好友"
                 height="36"
+                loading="lazy"
+                decoding="async"
               />
             </a>
           </div>
