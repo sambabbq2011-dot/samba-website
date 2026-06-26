@@ -32,18 +32,10 @@ jobs:
           node-version: 22
           cache: pnpm
 
-      - name: Configure GitHub Pages URL
+      - name: Configure website URL
         shell: bash
         run: |
-          owner="${GITHUB_REPOSITORY%%/*}"
-          repository="${GITHUB_REPOSITORY##*/}"
-          if [[ "$repository" == *.github.io ]]; then
-            site_url="https://${owner}.github.io"
-          else
-            site_url="https://${owner}.github.io/${repository}"
-          fi
-          echo "GITHUB_PAGES=true" >> "$GITHUB_ENV"
-          echo "NEXT_PUBLIC_SITE_URL=${site_url}" >> "$GITHUB_ENV"
+          echo "NEXT_PUBLIC_SITE_URL=https://samba.com.tw/" >> "$GITHUB_ENV"
           echo "NEXT_PUBLIC_BOOKING_WEB_APP_URL=${{ vars.BOOKING_WEB_APP_URL }}" >> "$GITHUB_ENV"
 
       - name: Install dependencies

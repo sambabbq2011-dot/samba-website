@@ -3,7 +3,7 @@ export const siteConfig = {
   shortName: "SAMBA",
   description:
     "Samba 窯烤提供全台行動巴西窯烤外燴，為企業活動、婚禮派對與私人聚會帶來現場炭火料理與熱情款待。",
-  url: process.env.NEXT_PUBLIC_SITE_URL || "https://www.samba-churrasco.tw",
+  url: process.env.NEXT_PUBLIC_SITE_URL || "https://samba.com.tw/",
   phone: process.env.NEXT_PUBLIC_CONTACT_PHONE || "",
   line: process.env.NEXT_PUBLIC_LINE_URL || "",
   instagram:
