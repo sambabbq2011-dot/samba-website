@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { BookingForm } from "@/components/BookingForm";
-import { PageHero } from "@/components/PageHero";
-import { imageUrls, siteConfig, siteUrl } from "@/lib/site";
+import { siteConfig, siteUrl } from "@/lib/site";
 
 const title = "Samba 窯烤外燴｜活動預約";
 const description =
@@ -30,18 +29,11 @@ export const metadata: Metadata = {
 export default function BookingPage() {
   return (
     <>
-      <PageHero
-        eyebrow="INQUIRY & BOOKING"
-        title="諮詢或預約，由你決定。"
-        description="第一次了解方案，可以先簡單詢問；活動資訊已確定，也可以一次填寫完整資料。"
-        image={imageUrls.hero}
-        mobileBreakAfterComma
-      />
       <section id="form" className="section booking-page">
         <div className="container booking-page__intro">
           <p className="eyebrow">START PLANNING</p>
-          <h2>選擇適合你目前進度的方式</h2>
-          <p>兩種方式都能送出需求，不必為了尚未確定的資訊卡在表單裡。</p>
+          <h1>活動預約與檔期詢問</h1>
+          <p>第一次了解方案，可以先簡單詢問；活動資訊已確定，也可以一次填寫完整資料。</p>
         </div>
         <div className="container">
           <BookingForm />

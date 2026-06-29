@@ -1,10 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { CTA } from "@/components/CTA";
-import { PageHero } from "@/components/PageHero";
-import { SectionHeading } from "@/components/SectionHeading";
 import { createMetadata } from "@/lib/metadata";
-import { imageUrls } from "@/lib/site";
 
 export const metadata: Metadata = createMetadata(
   "菜單方案",
@@ -99,7 +96,7 @@ const plans = [
     price: "1000",
     minimumGuests: 20,
     previewTitle: "升級亮點",
-    highlights: ["翼板牛", "蔥蒜白帶魚捲"],
+    highlights: ["翼板牛", "蔥蒜白帶魚卷"],
     grill: [
       "檸檬雞翅腿",
       "Chimichurrie 潛艦堡",
@@ -157,28 +154,25 @@ const categories = [
 export default function MenuPage() {
   return (
     <>
-      <PageHero
-        eyebrow="MENU & PACKAGES"
-        title="讓菜單配合聚會，而不是讓聚會遷就菜單。"
-        description="以下為方案方向。食材會依季節與供應調整，正式內容以活動需求與報價單為準。"
-        image={imageUrls.meat}
-      />
-      <section className="section">
+      <section className="section menu-pricing-section">
         <div className="container menu-page-container">
-          <SectionHeading
-            eyebrow="PRICE PACKAGES"
-            title={"依照預算，\n快速比較方案內容。"}
-            description={"Samba 窯烤外燴依活動性質、預算及人數提供客製化搭配，\n以下為常見方案參考內容，實際菜色可依需求調整。"}
-            align="center"
-          />
           <aside className="menu-minimum-notice">
             <strong>最低消費 NT$20,000（未稅）</strong>
             <p>
               若未達最低預約人數，仍以最低消費金額計算，並可依實際消費金額升級菜色內容。
             </p>
           </aside>
+          <aside className="menu-minimum-notice menu-minimum-notice--secondary">
+            <strong>依活動性質、預算及人數提供客製化搭配。</strong>
+            <p>
+              若有特殊需求、客製菜單或其他預算規劃，歡迎與我們聯繫討論。
+            </p>
+          </aside>
           <div className="price-plan-grid">
-            {plans.map((plan) => (
+            {plans.map((plan) => {
+              const highlightSet = new Set(plan.highlights);
+
+              return (
               <article key={plan.price} className="price-plan-card">
                 <header className="price-plan-card__header">
                   <p>每人方案</p>
@@ -191,6 +185,14 @@ export default function MenuPage() {
                   </p>
                   <mark>未稅</mark>
                 </header>
+                <div className="price-plan-card__difference">
+                  <span>{plan.previewTitle}</span>
+                  {plan.highlights.length > 0 ? (
+                    <p>{plan.highlights.join("・")}</p>
+                  ) : (
+                    <p>適合第一次體驗 Samba 窯烤外燴。</p>
+                  )}
+                </div>
                 <input
                   id={`menu-plan-${plan.price}`}
                   className="price-plan-card__toggle"
@@ -212,11 +214,25 @@ export default function MenuPage() {
                 <div className="price-plan-card__details">
                   <div className="price-plan-card__body">
                     {categories.map((category) => (
-                      <section key={category.key} className="price-plan-group">
+                      <section
+                        key={category.key}
+                        className={[
+                          "price-plan-group",
+                          `price-plan-group--${category.key}`,
+                          category.key === "grill" && plan.price !== "1000"
+                            ? "price-plan-group--align-to-1000"
+                            : ""
+                        ].filter(Boolean).join(" ")}
+                      >
                         <h3>{category.label}</h3>
                         <ul>
                           {plan[category.key].map((dish) => (
-                            <li key={dish}>{dish}</li>
+                            <li
+                              key={dish}
+                              className={highlightSet.has(dish) ? "is-upgrade" : undefined}
+                            >
+                              {dish}
+                            </li>
                           ))}
                         </ul>
                       </section>
@@ -227,11 +243,8 @@ export default function MenuPage() {
                   </Link>
                 </div>
               </article>
-            ))}
-          </div>
-          <div className="menu-custom-note">
-            <p>依活動性質、預算及人數提供客製化搭配。</p>
-            <p>若有特殊需求、客製菜單或其他預算規劃，歡迎與我們聯繫討論。</p>
+              );
+            })}
           </div>
         </div>
       </section>

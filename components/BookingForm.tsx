@@ -1,7 +1,11 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, KeyboardEvent, MouseEvent, useEffect, useState } from "react";
 import { BookingFormData, submitBookingForm } from "@/lib/booking";
+
+type FlowType = "inquiry" | "booking";
+
+const flowQueryParam = "flow";
 
 const regions = [
   "台北市",
@@ -72,13 +76,86 @@ function localToday() {
   return `${year}-${month}-${day}`;
 }
 
+function openNativeDatePicker(input: HTMLInputElement) {
+  if (typeof input.showPicker !== "function") return;
+
+  try {
+    input.showPicker();
+  } catch {
+    // Some browsers only allow this during direct pointer/keyboard activation.
+  }
+}
+
+function isFlowType(value: string | null): value is FlowType {
+  return value === "inquiry" || value === "booking";
+}
+
+function currentFlowTypeFromUrl() {
+  if (typeof window === "undefined") return null;
+
+  const flow = new URLSearchParams(window.location.search).get(flowQueryParam);
+  return isFlowType(flow) ? flow : null;
+}
+
+function bookingFlowUrl(nextFlowType: FlowType | null) {
+  const url = new URL(window.location.href);
+
+  if (nextFlowType) {
+    url.searchParams.set(flowQueryParam, nextFlowType);
+  } else {
+    url.searchParams.delete(flowQueryParam);
+  }
+
+  url.hash = "form";
+  return `${url.pathname}${url.search}${url.hash}`;
+}
+
+function updateBookingFlowUrl(nextFlowType: FlowType | null, mode: "push" | "replace") {
+  if (typeof window === "undefined") return;
+
+  const nextUrl = bookingFlowUrl(nextFlowType);
+
+  if (mode === "push") {
+    window.history.pushState(window.history.state, "", nextUrl);
+  } else {
+    window.history.replaceState(window.history.state, "", nextUrl);
+  }
+}
+
 export function BookingForm() {
-  const [flowType, setFlowType] = useState<"inquiry" | "booking" | null>(null);
+  const [flowType, setFlowType] = useState<FlowType | null>(null);
   const [dateUndecided, setDateUndecided] = useState(false);
   const [contactPreference, setContactPreference] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
+
+  useEffect(() => {
+    setFlowType(currentFlowTypeFromUrl());
+
+    function handlePopState() {
+      setSubmitted(false);
+      setSubmitError("");
+      setFlowType(currentFlowTypeFromUrl());
+    }
+
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
+
+  function selectFlowType(nextFlowType: FlowType) {
+    setSubmitted(false);
+    setSubmitError("");
+    setFlowType(nextFlowType);
+    updateBookingFlowUrl(nextFlowType, "push");
+  }
+
+  function resetFlowType() {
+    setSubmitted(false);
+    setSubmitError("");
+    setFlowType(null);
+    updateBookingFlowUrl(null, "replace");
+  }
 
   async function handleBookingSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -124,6 +201,20 @@ export function BookingForm() {
     }
   }
 
+  function handleDateInputClick(event: MouseEvent<HTMLInputElement>) {
+    openNativeDatePicker(event.currentTarget);
+  }
+
+  function handleDateInputKeyDown(event: KeyboardEvent<HTMLInputElement>) {
+    const opensPicker =
+      event.key === "Enter" ||
+      event.key === " " ||
+      (event.altKey && event.key === "ArrowDown");
+
+    if (!opensPicker) return;
+    openNativeDatePicker(event.currentTarget);
+  }
+
   if (submitted) {
     return (
       <div className="booking-success" role="status" aria-live="polite">
@@ -134,10 +225,7 @@ export function BookingForm() {
         <button
           className="button button--dark"
           type="button"
-          onClick={() => {
-            setSubmitted(false);
-            setFlowType(null);
-          }}
+          onClick={resetFlowType}
         >
           返回諮詢與預約選擇
         </button>
@@ -162,7 +250,7 @@ export function BookingForm() {
             <button
               className="button button--dark"
               type="button"
-              onClick={() => setFlowType("inquiry")}
+              onClick={() => selectFlowType("inquiry")}
             >
               我要先諮詢
             </button>
@@ -181,7 +269,7 @@ export function BookingForm() {
             <button
               className="button button--orange"
               type="button"
-              onClick={() => setFlowType("booking")}
+              onClick={() => selectFlowType("booking")}
             >
               我要仔細預約
             </button>
@@ -205,7 +293,7 @@ export function BookingForm() {
         <button
           className="booking-form__back"
           type="button"
-          onClick={() => setFlowType(null)}
+          onClick={resetFlowType}
         >
           ← 重新選擇
         </button>
@@ -243,9 +331,12 @@ export function BookingForm() {
             <label className="booking-field">
               <span>活動日期 <b>*</b></span>
               <input
+                className="booking-date-input"
                 name="activityDate"
                 type="date"
                 min={localToday()}
+                onClick={handleDateInputClick}
+                onKeyDown={handleDateInputKeyDown}
                 required
               />
             </label>

@@ -8,15 +8,19 @@ import { assetPath } from "@/lib/paths";
 import { imageUrls } from "@/lib/site";
 
 export const metadata: Metadata = createMetadata(
-  "行動巴西窯烤外燴",
-  "Samba 窯烤把現場炭火料理帶到企業活動、婚禮派對與私人聚會，讓每一場相聚都有香氣、有節奏、有記憶。",
+  "Samba 窯烤外燴",
+  "到府巴西窯烤、代烤外燴｜企業活動・婚禮・私人派對。全台到府服務可洽詢｜常態服務苗栗以北至宜蘭｜最低 NT$20,000 起。",
   "/"
 );
 
+const lineOfficialUrl = "https://lin.ee/tQCuaq7";
+
 const services = [
-  ["01", "企業活動", "尾牙、家庭日、品牌發表與團隊聚會，依規模安排餐點與現場動線。"],
-  ["02", "婚禮派對", "從戶外證婚到 After Party，用現烤香氣創造自然熱鬧的宴客氣氛。"],
-  ["03", "私人聚會", "生日、露營、社區活動與好友派對，把備料與烤檯交給專業團隊。"]
+  ["01", "到府巴西窯烤外燴", "行動烤檯、食材與料理團隊到場，現烤現切呈現巴西窯烤香氣。"],
+  ["02", "企業活動外燴", "品牌活動、家庭日與團隊聚會，依規模安排餐點與現場動線。"],
+  ["03", "尾牙春酒外燴", "歲末尾牙、春酒餐會與部門聚餐，讓宴會保有熱鬧現烤感。"],
+  ["04", "戶外婚禮外燴", "從戶外證婚到婚宴派對，用現烤料理創造自然溫暖的宴客氣氛。"],
+  ["05", "私人派對外燴", "生日、露營、社區活動與好友派對，把備料與烤檯交給專業團隊。"]
 ];
 
 export default function HomePage() {
@@ -30,22 +34,26 @@ export default function HomePage() {
         <div className="container home-hero__content">
           <p className="hero-kicker">MOBILE BRAZILIAN CHURRASCO · SINCE 2011</p>
           <h1>
-            把熱情
-            <br />
-            <em>烤進每次相聚</em>
+            Samba 窯烤外燴
           </h1>
           <p className="hero-copy">
-            Samba 帶著炭火與烤檯走進你的活動，
+            到府巴西窯烤、代烤外燴｜企業活動・婚禮・私人派對
             <br />
-            讓料理成為現場最有溫度的風景。
+            全台到府服務可洽詢｜常態服務苗栗以北至宜蘭｜最低 NT$20,000 起
           </p>
           <div className="hero-actions">
             <Link href="/booking" className="button button--orange">
-              詢問檔期與報價
+              方案詢問
+            </Link>
+            <Link href="/menu" className="button button--outline">
+              菜單方案
             </Link>
             <Link href="/cases" className="button button--outline">
-              看活動案例
+              活動案例
             </Link>
+            <a href={lineOfficialUrl} className="button button--outline">
+              LINE官方諮詢
+            </a>
           </div>
         </div>
         <div className="hero-scroll">SCROLL TO TASTE <span>↓</span></div>

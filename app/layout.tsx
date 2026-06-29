@@ -60,6 +60,12 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="zh-Hant" className={`${notoSans.variable} ${oswald.variable}`}>
+      <head>
+        <link
+          rel="stylesheet"
+          href={assetPath("/vendor/bootstrap-icons/bootstrap-icons.min.css")}
+        />
+      </head>
       <body>
         <Header />
         <main>{children}</main>
