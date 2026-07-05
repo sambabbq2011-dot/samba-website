@@ -115,6 +115,9 @@ export default function BridgeBbqPage() {
 
               <section className="bridge-event-block">
                 <h3>當日菜單</h3>
+                <p className="bridge-event-block__intro">
+                  當日會準備一道固定菜單以外的研發中品項，依當日備料與現場烤製安排提供，歡迎大家一起嚐鮮。
+                </p>
                 <div className="bridge-event-menu-grid">
                   {eventMenu.map((group) => (
                     <div className="bridge-event-menu-group" key={group.title}>
