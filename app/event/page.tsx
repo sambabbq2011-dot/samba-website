@@ -61,7 +61,7 @@ export default function BridgeBbqPage() {
             <p className="eyebrow">MONTHLY BBQ EVENT</p>
             <h1>
               橋下烤肉活動｜
-              <span className="mobile-line-break">每月限定報名場</span>
+              <span className="mobile-line-break">七月限定報名場</span>
             </h1>
             <p>
               不用揪滿一整團，也能一起體驗 Samba 現場窯烤。Samba 將不定期推出戶外窯烤活動，名額有限，採事先報名制。
