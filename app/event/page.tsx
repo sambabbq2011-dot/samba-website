@@ -59,7 +59,10 @@ export default function BridgeBbqPage() {
         <div className="container">
           <div className="bridge-event-heading">
             <p className="eyebrow">MONTHLY BBQ EVENT</p>
-            <h1>橋下烤肉活動｜每月限定報名場</h1>
+            <h1>
+              橋下烤肉活動｜
+              <span className="mobile-line-break">每月限定報名場</span>
+            </h1>
             <p>
               不用揪滿一整團，也能一起體驗 Samba 現場窯烤。Samba 將不定期推出戶外窯烤活動，名額有限，採事先報名制。
             </p>
@@ -69,7 +72,10 @@ export default function BridgeBbqPage() {
             <div className="bridge-event-card__header">
               <p className="eyebrow">2026 JULY</p>
               <h2 id="bridge-bbq-title">BBQ 夏日烤肉派對｜7/25（六）</h2>
-              <p>名額有限，完成付款後即保留席位，額滿即停止報名。</p>
+              <p>
+                名額有限，完成付款後即保留席位，
+                <span className="mobile-line-break">額滿即停止報名。</span>
+              </p>
             </div>
 
             <div className="bridge-event-card__body">
@@ -90,6 +96,20 @@ export default function BridgeBbqPage() {
                       <strong>{price.value}</strong>
                     </div>
                   ))}
+                </div>
+              </section>
+
+              <section className="bridge-event-block bridge-event-highlight">
+                <h3>報名與付款方式</h3>
+                <p>本活動採預先付款報名制，完成付款後即保留名額。</p>
+                <div className="bridge-event-highlight__action-row">
+                  <div>
+                    <p>報名流程：填寫報名表單 → 匯款活動費用 → 工作人員確認 → 報名完成</p>
+                    <p>付款完成後，我們會透過官方 LINE 與您確認報名資訊，請放心。</p>
+                  </div>
+                  <Link href="/event/register" className="bridge-event-register-tab">
+                    馬上報名
+                  </Link>
                 </div>
               </section>
 
@@ -136,6 +156,7 @@ export default function BridgeBbqPage() {
                 >
                   Google Map 連結
                 </a>
+                <span className="bridge-event-map-label">彩虹河濱公園少棒場</span>
                 <p>
                   <strong>停車資訊：</strong>
                   依河濱公園周邊停車格與現場公告為主。
@@ -144,6 +165,9 @@ export default function BridgeBbqPage() {
 
               <section className="bridge-event-block">
                 <h3>詳細集合點</h3>
+                <p className="bridge-event-block__intro">
+                  可以先導航到「彩虹河濱公園少棒場」，抵達後旁邊會看到一座橋，我們的集合地點就在橋底下。可以參考以下圖片，會比較好找。
+                </p>
                 <img
                   className="bridge-event-meeting-image"
                   src={assetPath("/images/event-bridge-meeting-point.png")}
@@ -165,20 +189,6 @@ export default function BridgeBbqPage() {
                   >
                     您的瀏覽器不支援影片播放。
                   </video>
-                </div>
-              </section>
-
-              <section className="bridge-event-block bridge-event-highlight">
-                <h3>報名與付款方式</h3>
-                <p>本活動採預先付款報名制，完成付款後即保留名額。</p>
-                <div className="bridge-event-highlight__action-row">
-                  <div>
-                    <p>報名流程：填寫報名表單 → 匯款活動費用 → 工作人員確認 → 報名完成</p>
-                    <p>付款完成後，我們會透過官方 LINE 與您確認報名資訊，請放心。</p>
-                  </div>
-                  <Link href="/event/register" className="bridge-event-register-tab">
-                    馬上報名
-                  </Link>
                 </div>
               </section>
 
