@@ -33,6 +33,7 @@ export const navigation: NavigationItem[] = [
   { href: "/services", label: "服務項目" },
   { href: "/menu", label: "菜單方案" },
   { href: "/cases", label: "活動案例" },
+  { href: "/event", label: "橋下烤肉活動" },
   { href: "/faq", label: "常見問題" },
   { href: "/contact", label: "聯絡我們" },
   { href: "/booking", label: "預約表單", featured: true }

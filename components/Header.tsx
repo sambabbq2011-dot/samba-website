@@ -36,12 +36,21 @@ export function Header() {
 
   function handleNavigationClick(
     event: MouseEvent<HTMLAnchorElement>,
-    isActive: boolean
+    isActive: boolean,
+    href: string
   ) {
     setOpen(false);
 
-    if (isActive) {
+    const isSamePage = pathname === href;
+
+    if (isActive && isSamePage) {
       event.preventDefault();
+
+      if (href === "/booking") {
+        window.history.pushState(window.history.state, "", "/booking");
+        window.dispatchEvent(new PopStateEvent("popstate"));
+      }
+
       setScrollTopRequest(Date.now());
     }
   }
@@ -78,7 +87,7 @@ export function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                onClick={(event) => handleNavigationClick(event, active)}
+                onClick={(event) => handleNavigationClick(event, active, item.href)}
                 className={[
                   active ? "is-active" : "",
                   item.featured ? "nav-cta" : ""

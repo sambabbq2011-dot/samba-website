@@ -123,7 +123,7 @@ const plans = [
     previewTitle: "升級亮點",
     highlights: ["帶骨牛肋排", "戰斧牛排"],
     grill: [
-      "莘香葉雞翅",
+      "檸檬雞翅腿",
       "Chimichurrie 潛艦堡",
       "鹽烤梅花豬",
       "鹽烤梅花牛",
