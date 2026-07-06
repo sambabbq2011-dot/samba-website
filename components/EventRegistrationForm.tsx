@@ -52,19 +52,31 @@ export function EventRegistrationForm() {
     if (!form.reportValidity()) return;
 
     const formData = new FormData(form);
+    const adultCount = value(formData, "adultCount");
+    const childCount = value(formData, "childCount");
+    const bankLastFive = value(formData, "bankLastFive");
+    const checkInName = value(formData, "checkInName");
 
     const registrationData: EventRegistrationData = {
       flowType: "活動報名",
       eventName: "BBQ 夏日烤肉派對｜7/25（六）",
       eventDate: "2026/7/25（六）",
-      bankLastFive: value(formData, "bankLastFive"),
-      checkInName: value(formData, "checkInName"),
+      activityDate: "2026-07-25",
+      eventType: "BBQ 夏日烤肉派對｜7/25（六）",
+      budgetPerPerson: "活動報名",
+      guestRange: `大人 ${adultCount} 位／小孩 ${childCount || "0"} 位`,
+      bankLastFive,
+      checkInName,
+      contactName: checkInName,
       phone: value(formData, "phone"),
       contactPreference: value(formData, "contactPreference"),
       lineDisplayName: value(formData, "lineDisplayName"),
-      adultCount: value(formData, "adultCount"),
-      childCount: value(formData, "childCount"),
+      adultCount,
+      childCount,
+      adults: adultCount,
+      children: childCount,
       dietaryDetails: value(formData, "dietaryDetails"),
+      additionalNeeds: `匯款帳號後五碼：${bankLastFive}`,
       note: value(formData, "note"),
       website: value(formData, "website")
     };

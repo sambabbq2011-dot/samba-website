@@ -23,7 +23,18 @@ const SHEET_HEADERS = [
   "得知管道",
   "已了解預約規則",
   "來源頁面",
-  "LINE 推播狀態"
+  "LINE 推播狀態",
+  "報名活動名稱",
+  "匯款帳號後五碼"
+];
+
+const FAILED_SUBMISSION_HEADERS = [
+  "伺服器收件時間",
+  "錯誤訊息",
+  "表單類型",
+  "submissionId",
+  "來源頁面",
+  "原始資料"
 ];
 
 /**
@@ -65,12 +76,12 @@ function doPost(e) {
     return textResponse_("OK");
   }
 
+  if (payload.website) {
+    return jsonResponse_({ success: true });
+  }
+
   try {
     validatePayload_(payload);
-
-    if (payload.website) {
-      return jsonResponse_({ success: true });
-    }
 
     const lock = LockService.getScriptLock();
     lock.waitLock(10000);
@@ -100,6 +111,7 @@ function doPost(e) {
     return jsonResponse_({ success: true });
   } catch (error) {
     console.error(error);
+    backupFailedSubmission_(payload, error, e.postData.contents);
     return jsonResponse_({
       success: false,
       message: error.message
@@ -116,24 +128,32 @@ function parseRequestBody_(e) {
 }
 
 function validatePayload_(payload) {
-  const requiredFields = [
-    "submissionId",
+  if (!getRawFormType_(payload)) {
+    throw new Error("缺少必要欄位：flowType");
+  }
+
+  if (!String(payload.submissionId || "").trim()) {
+    throw new Error("缺少必要欄位：submissionId");
+  }
+
+  const formCategory = getFormCategory_(payload);
+
+  if (formCategory === "registration") {
+    validateRegistrationPayload_(payload);
+    return;
+  }
+
+  [
     "eventType",
     "budgetPerPerson",
     "contactName",
     "phone",
     "contactPreference"
-  ];
-
-  requiredFields.forEach((field) => {
+  ].forEach((field) => {
     if (!String(payload[field] || "").trim()) {
       throw new Error(`缺少必要欄位：${field}`);
     }
   });
-
-  if (!getRawFormType_(payload)) {
-    throw new Error("缺少必要欄位：flowType");
-  }
 
   if (String(payload.contactName || "").length > 10) {
     throw new Error("稱呼不可超過 10 個字。");
@@ -163,8 +183,6 @@ function validatePayload_(payload) {
     }
   }
 
-  const formCategory = getFormCategory_(payload);
-
   if (formCategory === "booking") {
     if (!payload.activityAddress) {
       throw new Error("完整預約需要填寫活動地點。");
@@ -183,6 +201,38 @@ function validatePayload_(payload) {
     (!payload.activityRegion || !payload.guestRange)
   ) {
     throw new Error("簡易諮詢需要填寫活動地區與預估人數。");
+  }
+}
+
+function validateRegistrationPayload_(payload) {
+  [
+    "eventName",
+    "eventDate",
+    "bankLastFive",
+    "checkInName",
+    "phone",
+    "contactPreference",
+    "adultCount"
+  ].forEach((field) => {
+    if (!String(payload[field] || "").trim()) {
+      throw new Error(`活動報名缺少必要欄位：${field}`);
+    }
+  });
+
+  if (!/^\d{5}$/.test(String(payload.bankLastFive || ""))) {
+    throw new Error("匯款帳號後五碼需為 5 位數字。");
+  }
+
+  if (String(payload.checkInName || "").length > 10) {
+    throw new Error("稱呼不可超過 10 個字。");
+  }
+
+  if (String(payload.phone || "").length > 10) {
+    throw new Error("電話不可超過 10 個字。");
+  }
+
+  if (String(payload.dietaryDetails || "").length > 500) {
+    throw new Error("特殊飲食內容不可超過 500 個字。");
   }
 }
 
@@ -272,7 +322,11 @@ function ensureHeaderRow_(sheet) {
   if (sheet.getLastRow() === 0) {
     sheet.appendRow(SHEET_HEADERS);
     sheet.setFrozenRows(1);
+    return;
   }
+
+  sheet.getRange(1, 1, 1, SHEET_HEADERS.length).setValues([SHEET_HEADERS]);
+  sheet.setFrozenRows(1);
 }
 
 function isDuplicateSubmission_(sheet, submissionId) {
@@ -293,55 +347,105 @@ function appendBookingRow_(sheet, payload, lineStatus) {
     new Date(),
     safeCell_(payload.submittedAt),
     getFormDisplayName_(payload),
-    safeCell_(payload.activityDate),
+    safeCell_(payload.activityDate || payload.eventDate),
     safeCell_(payload.estimatedDateRange),
     safeCell_(payload.activityRegion),
     safeCell_(payload.activityAddress),
-    safeCell_(payload.guestRange),
-    numberOrBlank_(payload.adults),
-    numberOrBlank_(payload.children),
+    safeCell_(payload.guestRange || buildRegistrationGuestText_(payload)),
+    numberOrBlank_(payload.adults !== undefined ? payload.adults : payload.adultCount),
+    numberOrBlank_(payload.children !== undefined ? payload.children : payload.childCount),
     safeCell_(payload.budgetPerPerson),
-    safeCell_(payload.eventType),
+    safeCell_(payload.eventType || payload.eventName),
     safeCell_(payload.venueType),
     safeCell_(payload.unloadingAccess),
     safeCell_(payload.dietaryDetails),
     safeCell_(payload.additionalNeeds),
-    safeCell_(payload.contactName),
+    safeCell_(payload.contactName || payload.checkInName),
     safeCell_(payload.phone),
     safeCell_(payload.contactPreference),
     safeCell_(payload.lineDisplayName),
     safeCell_(payload.referralSource),
     payload.acceptedTerms ? "是" : "否",
     safeCell_(payload.sourceUrl),
-    safeCell_(lineStatus)
+    safeCell_(lineStatus),
+    safeCell_(payload.eventName),
+    safeCell_(payload.bankLastFive)
   ]);
 }
 
 function buildLineMessage_(payload) {
   const type = getFormDisplayName_(payload);
-  const date = payload.activityDate || payload.estimatedDateRange || "未提供";
+  const formCategory = getFormCategory_(payload);
+  const date = payload.activityDate || payload.estimatedDateRange || payload.eventDate || "未提供";
   const location = payload.activityAddress || payload.activityRegion || "未提供";
-  const guests = getFormCategory_(payload) === "booking"
+  const guests = formCategory === "booking"
     ? `大人 ${payload.adults} 位／小孩 ${payload.children} 位`
+    : formCategory === "registration"
+      ? buildRegistrationGuestText_(payload)
     : payload.guestRange;
+  const contactName = payload.contactName || payload.checkInName || "未提供";
+  const eventType = payload.eventType || payload.eventName || "未提供";
 
   return [
     "🔥 Samba 官網收到新需求",
     `類型：${type}`,
-    `稱呼：${payload.contactName}`,
+    `稱呼：${contactName}`,
     `電話：${payload.phone}`,
     `聯絡：${payload.contactPreference}`,
     payload.lineDisplayName ? `LINE 名稱：${payload.lineDisplayName}` : "",
     `日期：${date}`,
-    `地點：${location}`,
+    formCategory === "registration" ? "" : `地點：${location}`,
     `人數：${guests || "未提供"}`,
-    `預算：${payload.budgetPerPerson}`,
-    `活動：${payload.eventType}`,
+    payload.budgetPerPerson ? `預算：${payload.budgetPerPerson}` : "",
+    `活動：${eventType}`,
+    payload.bankLastFive ? `匯款後五碼：${payload.bankLastFive}` : "",
     payload.venueType ? `場地：${payload.venueType}` : "",
     payload.dietaryDetails ? `飲食：${payload.dietaryDetails}` : "",
     payload.additionalNeeds ? `補充：${payload.additionalNeeds}` : "",
     `編號：${payload.submissionId}`
   ].filter(Boolean).join("\n").slice(0, 4900);
+}
+
+function buildRegistrationGuestText_(payload) {
+  if (getFormCategory_(payload) !== "registration") return "";
+
+  return `大人 ${payload.adultCount || 0} 位／小孩 ${payload.childCount || 0} 位`;
+}
+
+function backupFailedSubmission_(payload, error, rawBody) {
+  try {
+    const spreadsheetId = getRequiredProperty_("SPREADSHEET_ID");
+    const sheetName =
+      getOptionalProperty_("SHEET_NAME_FAILED") || "錯誤紀錄";
+    const spreadsheet = SpreadsheetApp.openById(spreadsheetId);
+    const sheet = spreadsheet.getSheetByName(sheetName) ||
+      spreadsheet.insertSheet(sheetName);
+
+    ensureFailedSubmissionHeaderRow_(sheet);
+    sheet.appendRow([
+      new Date(),
+      safeCell_(error && error.message ? error.message : String(error)),
+      safeCell_(payload ? getRawFormType_(payload) : ""),
+      safeCell_(payload ? payload.submissionId : ""),
+      safeCell_(payload ? payload.sourceUrl : ""),
+      safeCell_(rawBody || JSON.stringify(payload || {}))
+    ]);
+  } catch (backupError) {
+    console.error("備份失敗表單資料時發生錯誤：", backupError);
+  }
+}
+
+function ensureFailedSubmissionHeaderRow_(sheet) {
+  if (sheet.getLastRow() === 0) {
+    sheet.appendRow(FAILED_SUBMISSION_HEADERS);
+    sheet.setFrozenRows(1);
+    return;
+  }
+
+  sheet
+    .getRange(1, 1, 1, FAILED_SUBMISSION_HEADERS.length)
+    .setValues([FAILED_SUBMISSION_HEADERS]);
+  sheet.setFrozenRows(1);
 }
 
 /**
@@ -406,10 +510,17 @@ function getRequiredProperty_(name) {
   return value;
 }
 
+function getOptionalProperty_(name) {
+  return PropertiesService
+    .getScriptProperties()
+    .getProperty(name);
+}
+
 function numberOrBlank_(value) {
-  return value === null || value === undefined || value === ""
-    ? ""
-    : Number(value);
+  if (value === null || value === undefined || value === "") return "";
+
+  const number = Number(value);
+  return Number.isNaN(number) ? safeCell_(value) : number;
 }
 
 function safeCell_(value) {
