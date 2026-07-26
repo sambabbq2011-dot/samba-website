@@ -386,6 +386,51 @@ function buildLineMessage_(payload) {
   const contactName = payload.contactName || payload.checkInName || "未提供";
   const eventType = payload.eventType || payload.eventName || "未提供";
 
+  if (formCategory === "registration") {
+    return [
+      "🔥 Samba 收到活動報名",
+      `姓名：${contactName}`,
+      `電話：${payload.phone}`,
+      payload.lineDisplayName ? `LINE 名稱：${payload.lineDisplayName}` : "",
+      `人數：${guests || "未提供"}`,
+      `活動：${eventType}`,
+      payload.bankLastFive ? `匯款後五碼：${payload.bankLastFive}` : "",
+      payload.dietaryDetails ? `飲食：${payload.dietaryDetails}` : ""
+    ].filter(Boolean).join("\n").slice(0, 4900);
+  }
+
+  if (formCategory === "inquiry") {
+    return [
+      "🔥 Samba 收到諮詢",
+      `姓名：${contactName}`,
+      `電話：${payload.phone}`,
+      payload.lineDisplayName ? `LINE 名稱：${payload.lineDisplayName}` : "",
+      `日期：${date}`,
+      `地區：${payload.activityRegion || "未提供"}`,
+      `人數：${guests || "未提供"}`,
+      payload.budgetPerPerson ? `預算：${payload.budgetPerPerson}` : "",
+      payload.eventType ? `活動：${payload.eventType}` : "",
+      payload.additionalNeeds ? `補充：${payload.additionalNeeds}` : ""
+    ].filter(Boolean).join("\n").slice(0, 4900);
+  }
+
+  if (formCategory === "booking") {
+    return [
+      "🔥 Samba 收到完整預約",
+      `姓名：${contactName}`,
+      `電話：${payload.phone}`,
+      payload.lineDisplayName ? `LINE 名稱：${payload.lineDisplayName}` : "",
+      `日期：${date}`,
+      `地點：${location}`,
+      `人數：${guests || "未提供"}`,
+      payload.budgetPerPerson ? `預算：${payload.budgetPerPerson}` : "",
+      payload.eventType ? `活動：${payload.eventType}` : "",
+      payload.venueType ? `場地：${payload.venueType}` : "",
+      payload.dietaryDetails ? `飲食：${payload.dietaryDetails}` : "",
+      payload.additionalNeeds ? `補充：${payload.additionalNeeds}` : ""
+    ].filter(Boolean).join("\n").slice(0, 4900);
+  }
+
   return [
     "🔥 Samba 官網收到新需求",
     `類型：${type}`,
