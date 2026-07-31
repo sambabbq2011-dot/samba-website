@@ -10,9 +10,9 @@ export const metadata: Metadata = createMetadata(
 );
 
 const eventInfo = [
-  { label: "日期", value: "2026/7/25（六）" },
-  { label: "報名截止時間", value: "2026/7/24" },
-  { label: "活動時間", value: "17:30～19:30" },
+  { label: "日期", value: "2026/8/22（六）" },
+  { label: "報名截止時間", value: "2026/8/21（五）" },
+  { label: "活動時間", value: "18:00～20:00" },
   { label: "活動地點", value: "台北市河濱公園" }
 ];
 
@@ -42,9 +42,9 @@ const eventMenu = [
 ];
 
 const refundRules = [
-  "7/22（含）以前取消：全額退款",
-  "7/23～7/24 取消：退還 50% 活動費用",
-  "7/25 活動當天取消或未到場：恕不退款"
+  "8/19（含）以前取消：全額退款",
+  "8/20～8/21 取消：退還 50% 活動費用",
+  "8/22 活動當天取消或未到場：恕不退款"
 ];
 
 const weatherNotes = [
@@ -61,7 +61,7 @@ export default function BridgeBbqPage() {
             <p className="eyebrow">MONTHLY BBQ EVENT</p>
             <h1>
               橋下烤肉活動｜
-              <span className="mobile-line-break">七月限定報名場</span>
+              <span className="mobile-line-break">八月限定報名場</span>
             </h1>
             <p>
               不用揪滿一整團，也能一起體驗 Samba 現場窯烤。Samba 將不定期推出戶外窯烤活動，名額有限，採事先報名制。
@@ -70,8 +70,8 @@ export default function BridgeBbqPage() {
 
           <article className="bridge-event-card" aria-labelledby="bridge-bbq-title">
             <div className="bridge-event-card__header">
-              <p className="eyebrow">2026 JULY</p>
-              <h2 id="bridge-bbq-title">BBQ 夏日烤肉派對｜7/25（六）</h2>
+              <p className="eyebrow">2026 AUGUST</p>
+              <h2 id="bridge-bbq-title">BBQ 仲夏火烤音樂派對｜8/22（六）</h2>
               <p>
                 名額有限，完成付款後即保留席位，
                 <span className="mobile-line-break">額滿即停止報名。</span>
@@ -135,19 +135,23 @@ export default function BridgeBbqPage() {
               <section className="bridge-event-block">
                 <h3>活動內容</h3>
                 <p>
-                  Samba 團隊會在現場準備窯烤餐點、餐具與烤製服務，你不用自己備料，也不用自己烤。
+                  Samba 團隊會在現場準備窯烤餐點、餐具及烤製服務，不需要自己備料，也不用動手烤，抵達現場就能輕鬆享用熱騰騰的窯烤料理。
                 </p>
                 <p>
-                  帶著朋友或家人來，找個舒服的位置坐下，邊聊天邊享用現烤料理，就像一場輕鬆的戶外野餐烤肉聚會。
+                  這次除了巴西窯烤，我們也邀請駐唱歌手「洪番薯」老師及團隊帶來現場演唱。
+                  伴著音樂享用美食，和朋友、家人一起度過輕鬆又熱鬧的夏夜。
                 </p>
                 <p>
-                  現場為戶外橋下空間，歡迎自備
+                  現場也開放互動點歌，當熟悉的旋律響起，歡迎大家跟著一起唱，把橋下變成熱鬧的夏夜音樂現場！
+                </p>
+                <p>
+                  活動場地為戶外橋下空間，歡迎自備
                   <span className="bridge-event-inline-highlight">野餐墊</span>
                   或
                   <span className="bridge-event-inline-highlight">休閒椅</span>
                   ，也建議攜帶
                   <span className="bridge-event-inline-highlight">防蚊用品</span>
-                  ，讓用餐過程更舒適。
+                  ，讓用餐過程更加舒適。
                 </p>
               </section>
 

@@ -59,10 +59,10 @@ export function EventRegistrationForm() {
 
     const registrationData: EventRegistrationData = {
       flowType: "活動報名",
-      eventName: "BBQ 夏日烤肉派對｜7/25（六）",
-      eventDate: "2026/7/25（六）",
-      activityDate: "2026-07-25",
-      eventType: "BBQ 夏日烤肉派對｜7/25（六）",
+      eventName: "BBQ 仲夏火烤音樂派對｜8/22（六）",
+      eventDate: "2026/8/22（六）",
+      activityDate: "2026-08-22",
+      eventType: "BBQ 仲夏火烤音樂派對｜8/22（六）",
       budgetPerPerson: "活動報名",
       guestRange: `大人 ${adultCount} 位／小孩 ${childCount || "0"} 位`,
       bankLastFive,
@@ -116,8 +116,8 @@ export function EventRegistrationForm() {
       </label>
 
       <div className="booking-trust" aria-label="活動報名資訊">
-        <span>活動日期：2026/7/25（六）</span>
-        <span>報名截止時間：2026/7/24（五）</span>
+        <span>活動日期：2026/8/22（六）</span>
+        <span>報名截止時間：2026/8/21（五）</span>
         <span>報名採預先付款制</span>
       </div>
 
