@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import { trackMetaPixelEvent } from "@/components/MetaPixel";
 import {
   EventRegistrationData,
   submitEventRegistration
@@ -87,6 +88,10 @@ export function EventRegistrationForm() {
     setSubmitting(false);
 
     if (result.success) {
+      trackMetaPixelEvent("CompleteRegistration", {
+        content_name: "BBQ 仲夏火烤音樂派對｜8/22（六）",
+        content_category: "event_registration"
+      });
       setSubmitted(true);
       window.location.hash = "form";
     } else {

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Noto_Sans_TC, Oswald } from "next/font/google";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { MetaPixel } from "@/components/MetaPixel";
 import { assetPath } from "@/lib/paths";
 import { siteConfig } from "@/lib/site";
 import "./globals.css";
@@ -67,6 +68,7 @@ export default function RootLayout({
         />
       </head>
       <body>
+        <MetaPixel />
         <Header />
         <main>{children}</main>
         <Footer />

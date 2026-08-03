@@ -566,6 +566,43 @@ h3 { font-size: 1.5rem; }
   object-fit: contain;
   background: var(--sand);
 }
+.menu-dish-modal__nav {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  color: var(--yellow);
+  font-size: 2.3rem;
+  line-height: 1;
+  text-decoration: none;
+  transform: translateY(-50%);
+  border: 2px solid var(--yellow);
+  border-radius: 999px;
+  background: rgba(0, 155, 58, .92);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, .24);
+}
+.menu-dish-modal__nav:hover,
+.menu-dish-modal__nav:focus-visible {
+  color: var(--blue);
+  background: var(--yellow);
+}
+.menu-dish-modal__nav span {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+.menu-dish-modal__nav--prev {
+  left: -20px;
+}
+.menu-dish-modal__nav--next {
+  right: -20px;
+}
 .menu-dish-modal__content p {
   margin: 12px 4px 0;
   color: var(--blue);
@@ -2277,6 +2314,23 @@ h3 { font-size: 1.5rem; }
   .booking-details__content { padding: 25px 18px 27px; }
   .booking-success { padding: 55px 22px; }
   .faq-answer { padding-right: 0; }
+  .menu-dish-modal {
+    padding: 18px;
+  }
+  .menu-dish-modal__content {
+    padding: 10px;
+  }
+  .menu-dish-modal__nav {
+    width: 40px;
+    height: 40px;
+    font-size: 2rem;
+  }
+  .menu-dish-modal__nav--prev {
+    left: 8px;
+  }
+  .menu-dish-modal__nav--next {
+    right: 8px;
+  }
   .price-plan-grid { grid-template-columns: 1fr; }
   .menu-minimum-notice { padding: 18px 17px; }
   .price-plan-card:hover { transform: none; }

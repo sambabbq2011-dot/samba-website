@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, KeyboardEvent, MouseEvent, useEffect, useState } from "react";
+import { trackMetaPixelEvent } from "@/components/MetaPixel";
 import { BookingFormData, submitBookingForm } from "@/lib/booking";
 
 type FlowType = "inquiry" | "booking";
@@ -194,6 +195,10 @@ export function BookingForm() {
     setSubmitting(false);
 
     if (result.success) {
+      trackMetaPixelEvent("Lead", {
+        content_name: flowType === "booking" ? "完整預約" : "初步詢問",
+        content_category: "booking_form"
+      });
       setSubmitted(true);
       window.location.hash = "form";
     } else {

@@ -220,6 +220,8 @@ const dishPreviewPhotos: Record<string, { id: string; src: string; alt: string }
   }
 };
 
+const dishPreviewEntries = Object.entries(dishPreviewPhotos);
+
 export default function MenuPage() {
   return (
     <>
@@ -307,14 +309,6 @@ export default function MenuPage() {
                                   aria-label={`放大查看${dish}照片`}
                                 >
                                   {dish}
-                                  <span className="menu-dish-hover__card">
-                                    <img
-                                      src={dishPreviewPhotos[dish].src}
-                                      alt={dishPreviewPhotos[dish].alt}
-                                      loading="lazy"
-                                    />
-                                    <span className="menu-dish-hover__hint">點擊放大</span>
-                                  </span>
                                 </a>
                               ) : (
                                 dish
@@ -335,32 +329,54 @@ export default function MenuPage() {
           </div>
         </div>
       </section>
-      {Object.entries(dishPreviewPhotos).map(([dish, photo]) => (
-        <div
-          key={dish}
-          id={photo.id}
-          className="menu-dish-modal"
-          role="dialog"
-          aria-label={`${dish}照片`}
-        >
-          <a
-            className="menu-dish-modal__backdrop"
-            href="#menu-page-top"
-            aria-label="關閉照片預覽"
-          />
-          <div className="menu-dish-modal__content">
+      {dishPreviewEntries.map(([dish, photo], index) => {
+        const previousPhoto =
+          dishPreviewEntries[(index - 1 + dishPreviewEntries.length) % dishPreviewEntries.length][1];
+        const nextPhoto = dishPreviewEntries[(index + 1) % dishPreviewEntries.length][1];
+
+        return (
+          <div
+            key={dish}
+            id={photo.id}
+            className="menu-dish-modal"
+            role="dialog"
+            aria-label={`${dish}照片`}
+          >
             <a
-              className="menu-dish-modal__close"
+              className="menu-dish-modal__backdrop"
               href="#menu-page-top"
               aria-label="關閉照片預覽"
-            >
-              ×
-            </a>
-            <img src={photo.src} alt={photo.alt} />
-            <p>{dish}</p>
+            />
+            <div className="menu-dish-modal__content">
+              <a
+                className="menu-dish-modal__close"
+                href="#menu-page-top"
+                aria-label="關閉照片預覽"
+              >
+                ×
+              </a>
+              <a
+                className="menu-dish-modal__nav menu-dish-modal__nav--prev"
+                href={`#${previousPhoto.id}`}
+                aria-label="上一張菜色照片"
+              >
+                ‹
+                <span>上一張</span>
+              </a>
+              <img src={photo.src} alt={photo.alt} />
+              <a
+                className="menu-dish-modal__nav menu-dish-modal__nav--next"
+                href={`#${nextPhoto.id}`}
+                aria-label="下一張菜色照片"
+              >
+                ›
+                <span>下一張</span>
+              </a>
+              <p>{dish}</p>
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
       <CTA />
     </>
   );
