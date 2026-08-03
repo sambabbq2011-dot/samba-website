@@ -539,8 +539,8 @@ h3 { font-size: 1.5rem; }
 @media (hover: hover) and (pointer: fine) {
   .menu-pricing-section .menu-dish-hover:hover .menu-dish-hover__card,
   .menu-pricing-section .menu-dish-hover:focus-visible .menu-dish-hover__card,
-  .bridge-event-page .menu-dish-hover:hover .menu-dish-hover__card,
-  .bridge-event-page .menu-dish-hover:focus-visible .menu-dish-hover__card {
+  .bridge-event-menu-section .menu-dish-hover:hover .menu-dish-hover__card,
+  .bridge-event-menu-section .menu-dish-hover:focus-visible .menu-dish-hover__card {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
@@ -699,7 +699,7 @@ h3 { font-size: 1.5rem; }
   display: inline;
 }
 .bridge-event-card {
-  overflow: hidden;
+  overflow: visible;
   background: var(--white);
   border: 1px solid rgba(0, 39, 118, .14);
   box-shadow: 0 28px 70px rgba(0, 39, 118, .12);
@@ -883,6 +883,13 @@ h3 { font-size: 1.5rem; }
   display: grid;
   grid-template-columns: 1.35fr repeat(4, minmax(0, 1fr));
   gap: 14px;
+}
+.bridge-event-menu-section,
+.bridge-event-menu-grid,
+.bridge-event-menu-group,
+.bridge-event-menu-group ul,
+.bridge-event-menu-group li {
+  overflow: visible;
 }
 .bridge-event-menu-group {
   padding: 18px;
