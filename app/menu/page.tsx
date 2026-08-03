@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { CTA } from "@/components/CTA";
 import { createMetadata } from "@/lib/metadata";
+import { assetPath } from "@/lib/paths";
 
 export const metadata: Metadata = createMetadata(
   "菜單方案",
@@ -151,10 +152,78 @@ const categories = [
   { key: "drink", label: "飲料" }
 ] as const;
 
+const dishPreviewPhotos: Record<string, { id: string; src: string; alt: string }> = {
+  "檸檬雞翅腿": {
+    id: "menu-dish-preview-lemon-chicken",
+    src: assetPath("/images/menu-lemon-chicken-wing-leg.jpg"),
+    alt: "檸檬雞翅腿"
+  },
+  "Chimichurrie 潛艦堡": {
+    id: "menu-dish-preview-chimichurrie-sub",
+    src: assetPath("/images/menu-chimichurrie-sub.jpg"),
+    alt: "Chimichurrie 潛艦堡"
+  },
+  "鹽烤豬臀": {
+    id: "menu-dish-preview-pork-rump",
+    src: assetPath("/images/menu-pork-rump.jpg"),
+    alt: "鹽烤豬臀"
+  },
+  "鹽烤梅花豬": {
+    id: "menu-dish-preview-pork-shoulder",
+    src: assetPath("/images/menu-pork-shoulder.jpg"),
+    alt: "鹽烤梅花豬"
+  },
+  "鹽烤梅花牛": {
+    id: "menu-dish-preview-beef-chuck",
+    src: assetPath("/images/menu-beef-chuck.jpg"),
+    alt: "鹽烤梅花牛"
+  },
+  "士林大香腸": {
+    id: "menu-dish-preview-shilin-sausage",
+    src: assetPath("/images/menu-shilin-sausage.jpg"),
+    alt: "士林大香腸"
+  },
+  "火焰火腿": {
+    id: "menu-dish-preview-flame-ham",
+    src: assetPath("/images/menu-flame-ham.jpg"),
+    alt: "火焰火腿"
+  },
+  "義大利麵": {
+    id: "menu-dish-preview-pasta",
+    src: assetPath("/images/menu-pasta.jpg"),
+    alt: "義大利麵"
+  },
+  "凱薩生菜沙拉": {
+    id: "menu-dish-preview-caesar-salad",
+    src: assetPath("/images/menu-caesar-salad.jpg"),
+    alt: "凱薩生菜沙拉"
+  },
+  "莎莎醬": {
+    id: "menu-dish-preview-salsa",
+    src: assetPath("/images/menu-salsa.jpg"),
+    alt: "莎莎醬"
+  },
+  "時蔬": {
+    id: "menu-dish-preview-seasonal-vegetables",
+    src: assetPath("/images/menu-seasonal-vegetables.jpg"),
+    alt: "時蔬"
+  },
+  "烤鳳梨": {
+    id: "menu-dish-preview-grilled-pineapple",
+    src: assetPath("/images/menu-grilled-pineapple.jpg"),
+    alt: "烤鳳梨"
+  },
+  "水果醋": {
+    id: "menu-dish-preview-fruit-vinegar",
+    src: assetPath("/images/menu-fruit-vinegar.jpg"),
+    alt: "水果醋"
+  }
+};
+
 export default function MenuPage() {
   return (
     <>
-      <section className="section menu-pricing-section">
+      <section id="menu-page-top" className="section menu-pricing-section">
         <div className="container menu-page-container">
           <aside className="menu-minimum-notice">
             <strong>最低消費 NT$20,000（未稅）</strong>
@@ -231,7 +300,25 @@ export default function MenuPage() {
                               key={dish}
                               className={highlightSet.has(dish) ? "is-upgrade" : undefined}
                             >
-                              {dish}
+                              {dishPreviewPhotos[dish] ? (
+                                <a
+                                  className="menu-dish-hover"
+                                  href={`#${dishPreviewPhotos[dish].id}`}
+                                  aria-label={`放大查看${dish}照片`}
+                                >
+                                  {dish}
+                                  <span className="menu-dish-hover__card">
+                                    <img
+                                      src={dishPreviewPhotos[dish].src}
+                                      alt={dishPreviewPhotos[dish].alt}
+                                      loading="lazy"
+                                    />
+                                    <span className="menu-dish-hover__hint">點擊放大</span>
+                                  </span>
+                                </a>
+                              ) : (
+                                dish
+                              )}
                             </li>
                           ))}
                         </ul>
@@ -248,6 +335,32 @@ export default function MenuPage() {
           </div>
         </div>
       </section>
+      {Object.entries(dishPreviewPhotos).map(([dish, photo]) => (
+        <div
+          key={dish}
+          id={photo.id}
+          className="menu-dish-modal"
+          role="dialog"
+          aria-label={`${dish}照片`}
+        >
+          <a
+            className="menu-dish-modal__backdrop"
+            href="#menu-page-top"
+            aria-label="關閉照片預覽"
+          />
+          <div className="menu-dish-modal__content">
+            <a
+              className="menu-dish-modal__close"
+              href="#menu-page-top"
+              aria-label="關閉照片預覽"
+            >
+              ×
+            </a>
+            <img src={photo.src} alt={photo.alt} />
+            <p>{dish}</p>
+          </div>
+        </div>
+      ))}
       <CTA />
     </>
   );

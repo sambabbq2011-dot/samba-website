@@ -41,6 +41,74 @@ const eventMenu = [
   { title: "飲料", items: ["水果醋"] }
 ];
 
+const eventDishPreviewPhotos: Record<string, { id: string; src: string; alt: string }> = {
+  "檸檬雞翅腿": {
+    id: "event-dish-preview-lemon-chicken",
+    src: assetPath("/images/menu-lemon-chicken-wing-leg.jpg"),
+    alt: "檸檬雞翅腿"
+  },
+  "Chimichurrie 潛艦堡": {
+    id: "event-dish-preview-chimichurrie-sub",
+    src: assetPath("/images/menu-chimichurrie-sub.jpg"),
+    alt: "Chimichurrie 潛艦堡"
+  },
+  "鹽烤豬臀": {
+    id: "event-dish-preview-pork-rump",
+    src: assetPath("/images/menu-pork-rump.jpg"),
+    alt: "鹽烤豬臀"
+  },
+  "鹽烤梅花豬": {
+    id: "event-dish-preview-pork-shoulder",
+    src: assetPath("/images/menu-pork-shoulder.jpg"),
+    alt: "鹽烤梅花豬"
+  },
+  "鹽烤梅花牛": {
+    id: "event-dish-preview-beef-chuck",
+    src: assetPath("/images/menu-beef-chuck.jpg"),
+    alt: "鹽烤梅花牛"
+  },
+  "士林大香腸": {
+    id: "event-dish-preview-shilin-sausage",
+    src: assetPath("/images/menu-shilin-sausage.jpg"),
+    alt: "士林大香腸"
+  },
+  "火焰火腿": {
+    id: "event-dish-preview-flame-ham",
+    src: assetPath("/images/menu-flame-ham.jpg"),
+    alt: "火焰火腿"
+  },
+  "義大利麵": {
+    id: "event-dish-preview-pasta",
+    src: assetPath("/images/menu-pasta.jpg"),
+    alt: "義大利麵"
+  },
+  "凱薩生菜沙拉": {
+    id: "event-dish-preview-caesar-salad",
+    src: assetPath("/images/menu-caesar-salad.jpg"),
+    alt: "凱薩生菜沙拉"
+  },
+  "莎莎醬": {
+    id: "event-dish-preview-salsa",
+    src: assetPath("/images/menu-salsa.jpg"),
+    alt: "莎莎醬"
+  },
+  "時蔬": {
+    id: "event-dish-preview-seasonal-vegetables",
+    src: assetPath("/images/menu-seasonal-vegetables.jpg"),
+    alt: "時蔬"
+  },
+  "烤鳳梨": {
+    id: "event-dish-preview-grilled-pineapple",
+    src: assetPath("/images/menu-grilled-pineapple.jpg"),
+    alt: "烤鳳梨"
+  },
+  "水果醋": {
+    id: "event-dish-preview-fruit-vinegar",
+    src: assetPath("/images/menu-fruit-vinegar.jpg"),
+    alt: "水果醋"
+  }
+};
+
 const refundRules = [
   "8/19（含）以前取消：全額退款",
   "8/20～8/21 取消：退還 50% 活動費用",
@@ -55,7 +123,7 @@ const weatherNotes = [
 export default function BridgeBbqPage() {
   return (
     <main>
-      <section className="section bridge-event-page">
+      <section id="event-page-top" className="section bridge-event-page">
         <div className="container">
           <div className="bridge-event-heading">
             <p className="eyebrow">MONTHLY BBQ EVENT</p>
@@ -124,7 +192,25 @@ export default function BridgeBbqPage() {
                       <h4>{group.title}</h4>
                       <ul>
                         {group.items.map((item) => (
-                          <li key={item}>{item}</li>
+                          <li key={item}>
+                            {eventDishPreviewPhotos[item] ? (
+                              <a
+                                className="menu-dish-hover"
+                                href={`#${eventDishPreviewPhotos[item].id}`}
+                              >
+                                {item}
+                                <span className="menu-dish-hover__card">
+                                  <img
+                                    src={eventDishPreviewPhotos[item].src}
+                                    alt={eventDishPreviewPhotos[item].alt}
+                                  />
+                                  <span className="menu-dish-hover__hint">點擊放大</span>
+                                </span>
+                              </a>
+                            ) : (
+                              item
+                            )}
+                          </li>
                         ))}
                       </ul>
                     </div>
@@ -227,6 +313,32 @@ export default function BridgeBbqPage() {
           </article>
         </div>
       </section>
+
+      {Object.entries(eventDishPreviewPhotos).map(([dish, photo]) => (
+        <div
+          id={photo.id}
+          className="menu-dish-modal"
+          aria-label={`${dish} 圖片預覽`}
+          key={photo.id}
+        >
+          <a
+            className="menu-dish-modal__backdrop"
+            href="#event-page-top"
+            aria-label="關閉圖片預覽"
+          />
+          <div className="menu-dish-modal__content">
+            <a
+              className="menu-dish-modal__close"
+              href="#event-page-top"
+              aria-label="關閉圖片預覽"
+            >
+              ×
+            </a>
+            <img src={photo.src} alt={photo.alt} />
+            <p>{dish}</p>
+          </div>
+        </div>
+      ))}
     </main>
   );
 }
