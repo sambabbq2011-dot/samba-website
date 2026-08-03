@@ -309,6 +309,14 @@ export default function MenuPage() {
                                   aria-label={`放大查看${dish}照片`}
                                 >
                                   {dish}
+                                  <span className="menu-dish-hover__card">
+                                    <img
+                                      src={dishPreviewPhotos[dish].src}
+                                      alt={dishPreviewPhotos[dish].alt}
+                                      loading="lazy"
+                                    />
+                                    <span className="menu-dish-hover__hint">點擊放大</span>
+                                  </span>
                                 </a>
                               ) : (
                                 dish

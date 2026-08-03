@@ -473,6 +473,7 @@ h3 { font-size: 1.5rem; }
   cursor: zoom-in;
   text-decoration: none;
   outline: none;
+  line-height: 1.65;
 }
 .menu-dish-hover::after {
   content: "";
@@ -486,11 +487,11 @@ h3 { font-size: 1.5rem; }
 .menu-dish-hover__card {
   position: absolute;
   left: 0;
-  bottom: calc(100% + 12px);
+  bottom: calc(100% + 8px);
   z-index: 20;
   width: min(230px, 72vw);
   padding: 8px;
-  pointer-events: auto;
+  pointer-events: none;
   opacity: 0;
   transform: translateY(8px) scale(.98);
   transform-origin: left bottom;
@@ -525,10 +526,18 @@ h3 { font-size: 1.5rem; }
   font-weight: 800;
   text-align: center;
 }
-.menu-dish-hover:hover .menu-dish-hover__card,
-.menu-dish-hover:focus-visible .menu-dish-hover__card {
-  opacity: 1;
-  transform: translateY(0) scale(1);
+@media (hover: hover) and (pointer: fine) {
+  .menu-pricing-section .menu-dish-hover:hover .menu-dish-hover__card,
+  .menu-pricing-section .menu-dish-hover:focus-visible .menu-dish-hover__card {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .menu-dish-hover__card {
+    display: none;
+  }
 }
 .menu-dish-modal {
   position: fixed;
