@@ -296,6 +296,13 @@ h3 { font-size: 1.5rem; }
 .menu-minimum-notice + .menu-minimum-notice {
   margin-top: -14px;
 }
+.menu-photo-tip {
+  display: none;
+  margin: -8px 0 24px;
+  color: var(--blue);
+  font-size: .9rem;
+  font-weight: 800;
+}
 .menu-page-container {
   width: min(calc(100% - 80px), 1680px);
 }
@@ -526,9 +533,14 @@ h3 { font-size: 1.5rem; }
   font-weight: 800;
   text-align: center;
 }
+.menu-dish-hover__mobile-label {
+  display: none;
+}
 @media (hover: hover) and (pointer: fine) {
   .menu-pricing-section .menu-dish-hover:hover .menu-dish-hover__card,
-  .menu-pricing-section .menu-dish-hover:focus-visible .menu-dish-hover__card {
+  .menu-pricing-section .menu-dish-hover:focus-visible .menu-dish-hover__card,
+  .bridge-event-page .menu-dish-hover:hover .menu-dish-hover__card,
+  .bridge-event-page .menu-dish-hover:focus-visible .menu-dish-hover__card {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
@@ -2521,6 +2533,21 @@ h3 { font-size: 1.5rem; }
     margin-bottom: 24px;
     padding: 16px 14px;
     border-left-width: 5px;
+  }
+  .menu-photo-tip {
+    display: block;
+  }
+  .menu-dish-hover__mobile-label {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 8px;
+    padding: 2px 7px;
+    color: var(--blue);
+    font-size: .72rem;
+    font-weight: 900;
+    line-height: 1.2;
+    border-radius: 999px;
+    background: var(--yellow);
   }
   .price-plan-grid { gap: 18px; }
   .price-plan-card__header {

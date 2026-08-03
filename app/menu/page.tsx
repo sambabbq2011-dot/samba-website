@@ -239,6 +239,7 @@ export default function MenuPage() {
               若有特殊需求、客製菜單或其他預算規劃，歡迎與我們聯繫討論。
             </p>
           </aside>
+          <p className="menu-photo-tip">有「點擊看圖」標籤的菜色可以點開查看照片。</p>
           <div className="price-plan-grid">
             {plans.map((plan) => {
               const highlightSet = new Set(plan.highlights);
@@ -309,6 +310,9 @@ export default function MenuPage() {
                                   aria-label={`放大查看${dish}照片`}
                                 >
                                   {dish}
+                                  <span className="menu-dish-hover__mobile-label">
+                                    點擊看圖
+                                  </span>
                                   <span className="menu-dish-hover__card">
                                     <img
                                       src={dishPreviewPhotos[dish].src}

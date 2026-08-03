@@ -109,6 +109,8 @@ const eventDishPreviewPhotos: Record<string, { id: string; src: string; alt: str
   }
 };
 
+const eventDishPreviewEntries = Object.entries(eventDishPreviewPhotos);
+
 const refundRules = [
   "8/19（含）以前取消：全額退款",
   "8/20～8/21 取消：退還 50% 活動費用",
@@ -203,6 +205,7 @@ export default function BridgeBbqPage() {
                                   <img
                                     src={eventDishPreviewPhotos[item].src}
                                     alt={eventDishPreviewPhotos[item].alt}
+                                    loading="lazy"
                                   />
                                   <span className="menu-dish-hover__hint">點擊放大</span>
                                 </span>
@@ -314,31 +317,55 @@ export default function BridgeBbqPage() {
         </div>
       </section>
 
-      {Object.entries(eventDishPreviewPhotos).map(([dish, photo]) => (
-        <div
-          id={photo.id}
-          className="menu-dish-modal"
-          aria-label={`${dish} 圖片預覽`}
-          key={photo.id}
-        >
-          <a
-            className="menu-dish-modal__backdrop"
-            href="#event-page-top"
-            aria-label="關閉圖片預覽"
-          />
-          <div className="menu-dish-modal__content">
+      {eventDishPreviewEntries.map(([dish, photo], index) => {
+        const previousPhoto =
+          eventDishPreviewEntries[
+            (index - 1 + eventDishPreviewEntries.length) % eventDishPreviewEntries.length
+          ][1];
+        const nextPhoto = eventDishPreviewEntries[(index + 1) % eventDishPreviewEntries.length][1];
+
+        return (
+          <div
+            id={photo.id}
+            className="menu-dish-modal"
+            aria-label={`${dish} 圖片預覽`}
+            key={photo.id}
+          >
             <a
-              className="menu-dish-modal__close"
+              className="menu-dish-modal__backdrop"
               href="#event-page-top"
               aria-label="關閉圖片預覽"
-            >
-              ×
-            </a>
-            <img src={photo.src} alt={photo.alt} />
-            <p>{dish}</p>
+            />
+            <div className="menu-dish-modal__content">
+              <a
+                className="menu-dish-modal__close"
+                href="#event-page-top"
+                aria-label="關閉圖片預覽"
+              >
+                ×
+              </a>
+              <a
+                className="menu-dish-modal__nav menu-dish-modal__nav--prev"
+                href={`#${previousPhoto.id}`}
+                aria-label="上一張菜色照片"
+              >
+                ‹
+                <span>上一張</span>
+              </a>
+              <img src={photo.src} alt={photo.alt} />
+              <a
+                className="menu-dish-modal__nav menu-dish-modal__nav--next"
+                href={`#${nextPhoto.id}`}
+                aria-label="下一張菜色照片"
+              >
+                ›
+                <span>下一張</span>
+              </a>
+              <p>{dish}</p>
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </main>
   );
 }
