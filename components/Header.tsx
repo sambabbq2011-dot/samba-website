@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import type { MouseEvent } from "react";
 import { useEffect, useState } from "react";
 import { BrandMark } from "@/components/BrandMark";
+import { trackMetaPixelCustomEvent } from "@/components/MetaPixel";
 import { navigation } from "@/lib/site";
 
 export function Header() {
@@ -37,8 +38,16 @@ export function Header() {
   function handleNavigationClick(
     event: MouseEvent<HTMLAnchorElement>,
     isActive: boolean,
-    href: string
+    href: string,
+    label: string
   ) {
+    trackMetaPixelCustomEvent("NavigationClick", {
+      nav_label: label,
+      nav_href: href,
+      from_path: pathname,
+      is_current_page: isActive
+    });
+
     setOpen(false);
 
     const isSamePage = pathname === href;
@@ -87,7 +96,9 @@ export function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                onClick={(event) => handleNavigationClick(event, active, item.href)}
+                onClick={(event) =>
+                  handleNavigationClick(event, active, item.href, item.label)
+                }
                 className={[
                   active ? "is-active" : "",
                   item.featured ? "nav-cta" : ""

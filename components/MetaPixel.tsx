@@ -25,6 +25,20 @@ export function trackMetaPixelEvent(
   window.fbq("track", eventName);
 }
 
+export function trackMetaPixelCustomEvent(
+  eventName: string,
+  parameters?: Record<string, unknown>
+) {
+  if (typeof window === "undefined" || typeof window.fbq !== "function") return;
+
+  if (parameters) {
+    window.fbq("trackCustom", eventName, parameters);
+    return;
+  }
+
+  window.fbq("trackCustom", eventName);
+}
+
 export function MetaPixel() {
   const pathname = usePathname();
   const hasSkippedInitialPageView = useRef(false);
