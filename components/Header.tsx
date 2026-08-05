@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import type { MouseEvent } from "react";
 import { useEffect, useState } from "react";
 import { BrandMark } from "@/components/BrandMark";
@@ -10,6 +10,7 @@ import { navigation } from "@/lib/site";
 
 export function Header() {
   const pathname = usePathname();
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [scrollTopRequest, setScrollTopRequest] = useState(0);
 
@@ -41,6 +42,13 @@ export function Header() {
     href: string,
     label: string
   ) {
+    const shouldLetBrowserHandleClick =
+      event.button !== 0 ||
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey ||
+      event.altKey;
+
     trackMetaPixelCustomEvent("NavigationClick", {
       nav_label: label,
       nav_href: href,
@@ -50,18 +58,27 @@ export function Header() {
 
     setOpen(false);
 
+    if (shouldLetBrowserHandleClick) {
+      return;
+    }
+
+    event.preventDefault();
+
     const isSamePage = pathname === href;
 
     if (isActive && isSamePage) {
-      event.preventDefault();
-
       if (href === "/booking") {
         window.history.pushState(window.history.state, "", "/booking");
         window.dispatchEvent(new PopStateEvent("popstate"));
       }
 
       setScrollTopRequest(Date.now());
+      return;
     }
+
+    window.setTimeout(() => {
+      router.push(href);
+    }, 180);
   }
 
   return (
